@@ -12,7 +12,7 @@ LineTerminator = \r|\n|\r\n
 WhiteSpace = {LineTerminator} | [ \t\f]
 
 /*Commenti*/
-Commento = %[^%]*%
+Commento = \%[^\%]*\%
 
 /*String literals*/
 StringLiteral = \"[^\"]*\"
@@ -31,23 +31,8 @@ RealNumber = {IntegerNumber}"."[0-9]+
 /*Whitespaces*/
 <YYINITIAL> {WhiteSpace}      { /*ignora*/ }
 
-
+//KEYWORDS e delimitatori
 <YYINITIAL> "var"              { return new Symbol(sym.VAR); }
-<YYINITIAL> ":"              { return new Symbol(sym.COLON); }
-<YYINITIAL> "^="              { return new Symbol(sym.ASSIGN); }
-<YYINITIAL> ";"              { return new Symbol(sym.SEMI); }
-<YYINITIAL>{
-    {Identificatore}            { return new Symbol(sym.ID,yytext()); }
-}
-<YYINITIAL> ","              { return new Symbol(sym.COMMA); }
-<YYINITIAL>{
-    {RealNumber}               { return new Symbol(sym.REAL_CONST,yytext()); }
-    {IntegerNumber}            { return new Symbol(sym.INTEGER_CONST,yytext()); }
-    {StringLiteral}            {
-                                    String str =  yytext().substring(1,yylength()-1);
-                                    return new Symbol(sym.STRING_CONST,str);
-                                }
-}
 <YYINITIAL> "true"              { return new Symbol(sym.TRUE); }
 <YYINITIAL> "false"              { return new Symbol(sym.FALSE); }
 <YYINITIAL> "real"              { return new Symbol(sym.REAL); }
@@ -74,7 +59,14 @@ RealNumber = {IntegerNumber}"."[0-9]+
 <YYINITIAL> "elseif"              { return new Symbol(sym.ELIF); }
 <YYINITIAL> "while"              { return new Symbol(sym.WHILE); }
 <YYINITIAL> "do"              { return new Symbol(sym.DO); }
-<YYINITIAL> "endwhile"       { return new Symbol(sym.ENDWHILE); }
+<YYINITIAL> ":"       { return new Symbol(sym.COLON); }
+<YYINITIAL> ";"       { return new Symbol(sym.SEMI); }
+<YYINITIAL> ","       { return new Symbol(sym.COMMA); }
+<YYINITIAL> "^="       { return new Symbol(sym.ASSIGN); }
+<YYINITIAL> "\\"       { return new Symbol(sym.ENDVAR); }
+
+
+/*Operatori*/
 <YYINITIAL> "+"              { return new Symbol(sym.PLUS); }
 <YYINITIAL> "-"              { return new Symbol(sym.MINUS); }
 <YYINITIAL> "*"              { return new Symbol(sym.TIMES); }
@@ -90,6 +82,18 @@ RealNumber = {IntegerNumber}"."[0-9]+
 <YYINITIAL> "!"              { return new Symbol(sym.NOT); }
 
 <YYINITIAL> "@"              { return new Symbol(sym.REF); }
+
+<YYINITIAL>{
+    {RealNumber}               { return new Symbol(sym.REAL_CONST,yytext()); }
+    {IntegerNumber}            { return new Symbol(sym.INTEGER_CONST,yytext()); }
+    {StringLiteral}            {
+                                    String str =  yytext().substring(1,yylength()-1);
+                                    return new Symbol(sym.STRING_CONST,str);
+                                }
+}
+<YYINITIAL>{
+    {Identificatore}            { return new Symbol(sym.ID,yytext()); }
+}
 
 /* error fallback */
 
