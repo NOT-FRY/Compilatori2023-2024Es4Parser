@@ -37,7 +37,7 @@ RealNumber = {IntegerNumber}"."[0-9]+
 <YYINITIAL> "^="              { return new Symbol(sym.ASSIGN); }
 <YYINITIAL> ";"              { return new Symbol(sym.SEMI); }
 <YYINITIAL>{
-    {Identificatore}            { return new Symbol(sym.ID); }
+    {Identificatore}            { return new Symbol(sym.ID,yytext()); }
 }
 <YYINITIAL> ","              { return new Symbol(sym.COMMA); }
 <YYINITIAL>{

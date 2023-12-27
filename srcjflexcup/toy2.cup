@@ -2,64 +2,66 @@ terminal VAR, COLON, ASSIGN, SEMI, COMMA, REAL, INTEGER, STRING, BOOLEAN, RETURN
     ENDFUNCTION, LPAR, RPAR, PROCEDURE, ENDPROCEDURE, OUT, WRITE, WRITERETURN, DOLLARSIGN, READ, IF, THEN, ELSE, ENDIF,
     ELIF, WHILE, DO, ENDWHILE, PLUS, MINUS, TIMES, DIV, EQ, NE, LT, LE, GT, GE, AND, OR, NOT, ENDVAR, REF;
 
-terminal String ID, Double REAL_CONST, Integer INTEGER_CONST, String STRING_CONST, Boolean TRUE, FALSE;
+terminal String ID, STRING_CONST;
+terminal Double REAL_CONST;
+terminal Integer INTEGER_CONST;
+terminal Boolean TRUE, FALSE;
 
-nonterminal Program, Iter, Procedure, VarDecl, Function, Decls, Ids, Type, Consts, FuncParams, Types, Body,
-    OtherFuncParams, ProcParams, ProcParamId, Stat, ProcCall, IOArgs, IfStat, WhileStat, Exprs, ProcExprs, Elifs, Expr,
-    Else
+non terminal Program, Iter, Procedure, VarDecl, Function, Decls, Ids, Type,Const, Consts, FuncParams, Types, Body,
+    OtherFuncParams, ProcParams,OtherProcParams, ProcParamId, Stat, ProcCall,FunCall, IOArgs, IfStat, WhileStat, Exprs,
+    Elif, ProcExprs, Elifs, Expr, Else;
 
-  Program ::= Iter Procedure Iter
+  Program ::= Iter Procedure Iter;
   Iter ::= VarDecl Iter
         | Function Iter
         | Procedure Iter
-        | /* empty */
+        | /* empty */;
 
-
-  VarDecl ::= VAR Decls
+  VarDecl ::= VAR Decls;
   Decls ::= Ids COLON Type SEMI Decls
   	| Ids ASSIGN Consts SEMI Decls
   	| Ids COLON Type SEMI ENDVAR
-  	| Ids ASSIGN Consts SEMI ENDVAR
+  	| Ids ASSIGN Consts SEMI ENDVAR;
 
   Ids ::= ID COMMA Ids
-          | ID
+          | ID;
 
   Consts ::= Const COMMA Consts
-  	| Const
+  	| Const;
   Const ::= REAL_CONST
   	| INTEGER_CONST
   	| STRING_CONST
   	| TRUE
-  	| FALSE
+  	| FALSE;
 
   Type ::= REAL
   	| INTEGER
   	| STRING
-  	| BOOLEAN
+  	| BOOLEAN;
 
-  Function  ::= FUNCTION ID LPAR FuncParams RPAR TYPERETURN Types COLON Body ENDFUNCTION
+  Function  ::= FUNCTION ID LPAR FuncParams RPAR TYPERETURN Types COLON Body ENDFUNCTION;
 
   FuncParams ::= ID COLON Type OtherFuncParams
-  	    | /* empty */
+  	    | /* empty */;
   OtherFuncParams ::= COMMA ID COLON Type OtherFuncParams
-  	    | /* empty */
+  	    | /* empty */;
 
   Types ::= Type COMMA Types
-  	| Type
+  	| Type;
 
-  Procedure ::= PROCEDURE ID LPAR ProcParams RPAR COLON Body ENDPROCEDURE
+  Procedure ::= PROCEDURE ID LPAR ProcParams RPAR COLON Body ENDPROCEDURE;
 
   ProcParams::= ProcParamId COLON Type OtherProcParams
-  	   | /* empty */
+  	   | /* empty */;
   OtherProcParams ::= COMMA ProcParamId COLON Type OtherProcParams
-  	   | /* empty */
+  	   | /* empty */;
 
   ProcParamId ::= ID
-  	    | OUT ID
+  	    | OUT ID;
 
   Body ::= VarDecl Body
   	| Stat Body
-  	| /* empty */
+  	| /* empty */;
 
   Stat ::= Ids ASSIGN Exprs SEMI
   	 | ProcCall  SEMI
@@ -68,46 +70,46 @@ nonterminal Program, Iter, Procedure, VarDecl, Function, Decls, Ids, Type, Const
   	 | WRITERETURN IOArgs SEMI
   	 | READ IOArgs SEMI
   	 | IfStat SEMI
-  	 | WhileStat SEMI
+  	 | WhileStat SEMI;
 
   FunCall ::= ID LPAR Exprs RPAR           /* chiamata con almeno un parametro */
-           | ID LPAR RPAR                   /* chiamata con nessun parametro */
+           | ID LPAR RPAR;                 /* chiamata con nessun parametro */
 
   ProcCall ::= ID LPAR ProcExprs RPAR    /* chiamata con almeno un parametro */
-           | ID LPAR RPAR             /* chiamata con nessun parametro */
+           | ID LPAR RPAR;             /* chiamata con nessun parametro */
 
-  IfStat ::= IF Expr THEN Body Elifs Else ENDIF
+  IfStat ::= IF Expr THEN Body Elifs Else ENDIF;
 
   Elifs ::= Elif Elifs
-        | /* empty */
+        | /* empty */;
 
-  Elif ::= ELIF Expr THEN Body
+  Elif ::= ELIF Expr THEN Body;
 
   Else ::= ELSE Body
-       | /* empty */
+       | /* empty */;
 
-  WhileStat ::= WHILE Expr DO Body ENDWHILE
+  WhileStat ::= WHILE Expr DO Body ENDWHILE;
 
   IOArgs ::= Expr IOArgs    /* qui l'Expr corretta è concatenazione di stringhe o singola stringa*/
          |  DOLLARSIGN LPAR Expr RPAR IOArgs
-         | /* empty */
+         | /* empty */;
 
   ProcExprs::= Expr COMMA ProcExprs
   	  | REF ID COMMA ProcExprs
             | Expr
-  	  | REF ID
+  	  | REF ID;
 
   Exprs ::= Expr COMMA Exprs
-  	| Expr
+  	| Expr;
 
   Expr ::= FunCall
   	| REAL_CONST
-          | INTEGER_CONST
+    | INTEGER_CONST
   	| STRING_CONST
   	| ID
-          | TRUE
-          | FALSE
-          | Expr  PLUS Expr
+    | TRUE
+    | FALSE
+    | Expr  PLUS Expr
   	| Expr  MINUS Expr
   	| Expr  TIMES Expr
   	| Expr  DIV Expr
@@ -121,4 +123,4 @@ nonterminal Program, Iter, Procedure, VarDecl, Function, Decls, Ids, Type, Const
   	| Expr  NE Expr
   	| LPAR Expr RPAR
   	| MINUS Expr
-  	| NOT Expr
+  	| NOT Expr;
