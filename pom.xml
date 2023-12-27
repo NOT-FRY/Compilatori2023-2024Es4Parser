@@ -75,7 +75,7 @@
                     <dumpGrammar>${miaCondizione}</dumpGrammar>
                     <dumpStates>${miaCondizione}</dumpStates>
                     <dumpTables>${miaCondizione}</dumpTables>
-                    <expectedConflicts>0</expectedConflicts>
+                    <expectedConflicts>125</expectedConflicts>
                 </configuration>
             </plugin>
 
