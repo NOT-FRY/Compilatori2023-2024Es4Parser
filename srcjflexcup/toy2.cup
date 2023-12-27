@@ -48,6 +48,7 @@ precedence left LPAR,RPAR;
         | /* empty */;
 
   VarDecl ::= VAR Decls;
+
   Decls ::= Ids COLON Type SEMI Decls
   	| Ids ASSIGN Consts SEMI Decls
   	| Ids COLON Type SEMI ENDVAR
@@ -58,6 +59,7 @@ precedence left LPAR,RPAR;
 
   Consts ::= Const COMMA Consts
   	| Const;
+
   Const ::= REAL_CONST
   	| INTEGER_CONST
   	| STRING_CONST
@@ -73,6 +75,7 @@ precedence left LPAR,RPAR;
 
   FuncParams ::= ID COLON Type OtherFuncParams
   	    | /* empty */;
+
   OtherFuncParams ::= COMMA ID COLON Type OtherFuncParams
   	    | /* empty */;
 
@@ -83,6 +86,7 @@ precedence left LPAR,RPAR;
 
   ProcParams::= ProcParamId COLON Type OtherProcParams
   	   | /* empty */;
+
   OtherProcParams ::= COMMA ProcParamId COLON Type OtherProcParams
   	   | /* empty */;
 
@@ -126,7 +130,7 @@ precedence left LPAR,RPAR;
 
   ProcExprs::= Expr COMMA ProcExprs
   	  | REF ID COMMA ProcExprs
-            | Expr
+      | Expr
   	  | REF ID;
 
   Exprs ::= Expr COMMA Exprs

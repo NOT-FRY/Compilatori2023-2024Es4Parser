@@ -45,7 +45,7 @@ RealNumber = {IntegerNumber}"."[0-9]+
     {IntegerNumber}            { return new Symbol(sym.INTEGER_CONST,yytext()); }
     {StringLiteral}            {
                                     String str =  yytext().substring(1,yylength()-1);
-                                    return new Symbol(sym.STRING_LITERAL,str);
+                                    return new Symbol(sym.STRING_CONST,str);
                                 }
 }
 <YYINITIAL> "true"              { return new Symbol(sym.TRUE); }
@@ -93,5 +93,5 @@ RealNumber = {IntegerNumber}"."[0-9]+
 
 /* error fallback */
 
-[^]                {return new Symbol(sym.ERROR,"- Carattere non consentito < "+
+[^]                {throw new Error("- Carattere non consentito < "+
                     yytext()+" > a riga "+(yyline+1)+"\n" );}
