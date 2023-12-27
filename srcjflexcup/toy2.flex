@@ -9,7 +9,6 @@ import java_cup.runtime.Symbol;
 
 /*Whitespaces*/
 LineTerminator = \r|\n|\r\n
-InputCharacter = [^\r\n]
 WhiteSpace = {LineTerminator} | [ \t\f]
 
 /*Commenti*/
@@ -46,7 +45,7 @@ RealNumber = {IntegerNumber}"."[0-9]+
     {IntegerNumber}            { return new Symbol(sym.INTEGER_CONST,yytext()); }
     {StringLiteral}            {
                                     String str =  yytext().substring(1,yylength()-1);
-                                    return symbol(jflex.generated.Token.STRING_LITERAL,str);
+                                    return new Symbol(sym.STRING_LITERAL,str);
                                 }
 }
 <YYINITIAL> "true"              { return new Symbol(sym.TRUE); }
@@ -80,10 +79,6 @@ RealNumber = {IntegerNumber}"."[0-9]+
 <YYINITIAL> "-"              { return new Symbol(sym.MINUS); }
 <YYINITIAL> "*"              { return new Symbol(sym.TIMES); }
 <YYINITIAL> "/"              { return new Symbol(sym.DIV); }
-<YYINITIAL> "+"              { return new Symbol(sym.PLUS); }
-<YYINITIAL> "-"              { return new Symbol(sym.MINUS); }
-<YYINITIAL> "*"              { return new Symbol(sym.TIMES); }
-<YYINITIAL> "/"              { return new Symbol(sym.DIV); }
 <YYINITIAL> "="              { return new Symbol(sym.EQ); }
 <YYINITIAL> "<>"              { return new Symbol(sym.NE); }
 <YYINITIAL> "<"              { return new Symbol(sym.LT); }
@@ -98,5 +93,5 @@ RealNumber = {IntegerNumber}"."[0-9]+
 
 /* error fallback */
 
-[^]                {return symbol(jflex.generated.Token.ERROR,"- Carattere non consentito < "+
+[^]                {return new Symbol(sym.ERROR,"- Carattere non consentito < "+
                     yytext()+" > a riga "+(yyline+1)+"\n" );}
