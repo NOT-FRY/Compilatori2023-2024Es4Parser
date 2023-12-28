@@ -135,6 +135,7 @@ class IfStatement extends Node implements Statement{
         this.elseBody = elseBody;
     }
 
+
     public Expression getExpression() {
         return expression;
     }
@@ -171,3 +172,18 @@ class IfStatement extends Node implements Statement{
         return v.visit(this);
     }
 }
+
+class ReturnStatement extends Node implements Statement{
+        private Expression expression;
+
+    public Expression getExpression() {
+        return expression;
+    }
+
+    public void setExpression(Expression expression) {
+        this.expression = expression;
+    }
+
+    public Object accept(Visitor v) { return v.visit(this);}
+}
+
