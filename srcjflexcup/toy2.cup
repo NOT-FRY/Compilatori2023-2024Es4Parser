@@ -136,6 +136,7 @@ precedence left LPAR,RPAR;
   Exprs ::= Expr COMMA Exprs
   	| Expr;
 
+
   Expr ::= FunCall
   	| REAL_CONST
     | INTEGER_CONST
@@ -143,18 +144,18 @@ precedence left LPAR,RPAR;
   	| ID
     | TRUE
     | FALSE
-    | Expr  PLUS Expr
-  	| Expr  MINUS Expr
-  	| Expr  TIMES Expr
-  	| Expr  DIV Expr
-  	| Expr  AND Expr
-  	| Expr  OR Expr
-  	| Expr  GT Expr
-  	| Expr  GE Expr
-  	| Expr  LT Expr
-  	| Expr  LE Expr
-  	| Expr  EQ Expr
-  	| Expr  NE Expr
+    | Expr:e1  PLUS Expr:e2 {:RESULT = e1+e2; :}
+  	| Expr:e1  MINUS Expr:e2 {:RESULT = e1-e2; :}
+  	| Expr:e1  TIMES Expr:e2 {:RESULT = e1*e2; :}
+  	| Expr:e1  DIV Expr:e2 {:RESULT = e1/e2; :}
+  	| Expr:e1  AND Expr:e2 {:RESULT = e1&&e2; :}
+  	| Expr:e1  OR Expr:e2 {:RESULT = e1||e2; :}
+  	| Expr:e1  GT Expr:e2 {:RESULT = e1>e2; :}
+  	| Expr:e1  GE Expr:e2 {:RESULT = e1>=e2; :}
+  	| Expr:e1  LT Expr:e2 {:RESULT = e1<e2; :}
+  	| Expr:e1  LE Expr:e2 {:RESULT = e1<=e2; :}
+  	| Expr:e1  EQ Expr:e2 {:RESULT = e1=e2; :}
+  	| Expr:e1  NE Expr:e2 {:RESULT = e1<>e2; :}
   	| LPAR Expr RPAR
-  	| MINUS Expr
-  	| NOT Expr;
+  	| MINUS Expr:e {:RESULT = -e; :}
+  	| NOT Expr:e {:RESULT = !e; :};
