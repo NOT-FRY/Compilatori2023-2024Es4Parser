@@ -1,7 +1,7 @@
 /*terminali*/
 terminal VAR, COLON, ASSIGN, SEMI, COMMA, REAL, INTEGER, STRING, BOOLEAN, RETURN, FUNCTION, TYPERETURN,
     ENDFUNCTION, LPAR, RPAR, PROCEDURE, ENDPROCEDURE, OUT, WRITE, WRITERETURN, DOLLARSIGN, READ, IF, THEN, ELSE, ENDIF,
-    ELIF, WHILE, DO, ENDWHILE, PLUS, MINUS, TIMES, DIV, EQ, NE, LT, LE, GT, GE, AND, OR, NOT, ENDVAR, REF;
+    ELIF, WHILE, DO, ENDWHILE, PLUS, MINUS, TIMES, DIV, EQ, NE, LT, LE, GT, GE, AND, OR, NOT, ENDVAR, REF, UMINUS;
 
 terminal String ID, STRING_CONST;
 terminal Double REAL_CONST;
@@ -33,6 +33,8 @@ precedence left PLUS, MINUS;
 precedence left TIMES, DIV;
 
 precedence right NOT;
+precedence left UMINUS;
+
 
 precedence right REF;
 
@@ -155,7 +157,8 @@ precedence left LPAR,RPAR;
   	| Expr:e1  LT Expr:e2 {:RESULT = e1<e2; :}
   	| Expr:e1  LE Expr:e2 {:RESULT = e1<=e2; :}
   	| Expr:e1  EQ Expr:e2 {:RESULT = e1=e2; :}
-  	| Expr:e1  NE Expr:e2 {:RESULT = e1<>e2; :}
+  	| Expr:e1  NE Expr:e2 {:RESULT = e1!=e2; :}
   	| LPAR Expr RPAR
   	| MINUS Expr:e {:RESULT = -e; :}
+  	    %prec UMINUS
   	| NOT Expr:e {:RESULT = !e; :};

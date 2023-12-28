@@ -1,7 +1,5 @@
 package tree_structure;
 
-import java.beans.Expression;
-
 public class ElifOp extends Node{
     private Expression expression;
     private BodyOp body;
