@@ -1,6 +1,7 @@
 package tree_structure;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public interface Statement {
 }
@@ -12,6 +13,21 @@ enum WritingType{
 
 class ReadStatement extends Node implements Statement{
     private ArrayList<Expression> expressions;
+
+    @Override
+    public String toString() {
+        return "ReadStatement{" +
+                "expressions=" + expressions +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReadStatement that)) return false;
+        return Objects.equals(getExpressions(), that.getExpressions());
+    }
+
 
     public ReadStatement(ArrayList<Expression> expressions) {
         this.expressions = expressions;
@@ -36,6 +52,21 @@ class WriteStatement extends Node implements Statement{
     public WriteStatement(WritingType writingType, ArrayList<Expression> expressions) {
         this.writingType = writingType;
         this.expressions = expressions;
+    }
+
+    @Override
+    public String toString() {
+        return "WriteStatement{" +
+                "writingType=" + writingType +
+                ", expressions=" + expressions +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof WriteStatement that)) return false;
+        return getWritingType() == that.getWritingType() && Objects.equals(getExpressions(), that.getExpressions());
     }
 
     public WritingType getWritingType() {
@@ -69,6 +100,21 @@ class AssignStatement extends Node implements Statement{
         this.expressions = expressions;
     }
 
+    @Override
+    public String toString() {
+        return "AssignStatement{" +
+                "identifiers=" + identifiers +
+                ", expressions=" + expressions +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AssignStatement that)) return false;
+        return Objects.equals(getIdentifiers(), that.getIdentifiers()) && Objects.equals(getExpressions(), that.getExpressions());
+    }
+
     public ArrayList<Identifier> getIdentifiers() {
         return identifiers;
     }
@@ -98,6 +144,21 @@ class WhileStatement extends Node implements Statement {
     public WhileStatement(Expression expression, BodyOp body) {
         this.expression = expression;
         this.body = body;
+    }
+
+    @Override
+    public String toString() {
+        return "WhileStatement{" +
+                "expression=" + expression +
+                ", body=" + body +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof WhileStatement that)) return false;
+        return Objects.equals(getExpression(), that.getExpression()) && Objects.equals(getBody(), that.getBody());
     }
 
     public Expression getExpression() {
@@ -132,6 +193,23 @@ class IfStatement extends Node implements Statement{
         this.body = body;
         this.elifList = elifList;
         this.elseBody = elseBody;
+    }
+
+    @Override
+    public String toString() {
+        return "IfStatement{" +
+                "expression=" + expression +
+                ", body=" + body +
+                ", elifList=" + elifList +
+                ", elseBody=" + elseBody +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof IfStatement that)) return false;
+        return Objects.equals(getExpression(), that.getExpression()) && Objects.equals(getBody(), that.getBody()) && Objects.equals(getElifList(), that.getElifList()) && Objects.equals(getElseBody(), that.getElseBody());
     }
 
 
@@ -174,6 +252,20 @@ class IfStatement extends Node implements Statement{
 
 class ReturnStatement extends Node implements Statement{
         private Expression expression;
+
+    @Override
+    public String toString() {
+        return "ReturnStatement{" +
+                "expression=" + expression +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ReturnStatement that)) return false;
+        return Objects.equals(getExpression(), that.getExpression());
+    }
 
     public Expression getExpression() {
         return expression;
