@@ -1,5 +1,7 @@
 package tree_structure;
 
+import tree_structure.Expression.Expression;
+
 import java.util.Objects;
 
 public class IdentifierExpression {

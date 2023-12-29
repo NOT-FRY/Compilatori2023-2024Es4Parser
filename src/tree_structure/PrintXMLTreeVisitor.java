@@ -1,4 +1,10 @@
 package tree_structure;
+import tree_structure.Expression.*;
+import tree_structure.Expression.Expression;
+
+import tree_structure.Statement.*;
+import tree_structure.Statement.Statement;
+
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.ArrayList;

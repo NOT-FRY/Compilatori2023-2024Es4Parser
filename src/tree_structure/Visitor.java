@@ -1,5 +1,8 @@
 package tree_structure;
 
+import tree_structure.Expression.*;
+import tree_structure.Statement.*;
+
 public interface Visitor {
 
     Object visit(AddOp a);
@@ -35,4 +38,5 @@ public interface Visitor {
     Object visit(VarDeclOp v);
     Object visit(WhileStatement w);
     Object visit(WriteStatement w);
+
 }

@@ -1,5 +1,8 @@
 package tree_structure;
 
+import tree_structure.Expression.*;
+import tree_structure.Statement.*;
+
 public class ExprEvalVisitor_OLD implements Visitor {
     @Override
     public Object visit(AddOp a) {

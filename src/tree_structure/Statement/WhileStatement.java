@@ -1,21 +1,25 @@
-package tree_structure;
+package tree_structure.Statement;
 
+import tree_structure.BodyOp;
 import tree_structure.Expression.Expression;
+import tree_structure.Node;
+import tree_structure.Visitor;
 
 import java.util.Objects;
 
-public class ElifOp extends Node{
+public class WhileStatement extends Node implements Statement {
     private Expression expression;
+
     private BodyOp body;
 
-    public ElifOp(Expression expression, BodyOp body) {
+    public WhileStatement(Expression expression, BodyOp body) {
         this.expression = expression;
         this.body = body;
     }
 
     @Override
     public String toString() {
-        return "ElifOp{" +
+        return "WhileStatement{" +
                 "expression=" + expression +
                 ", body=" + body +
                 '}';
@@ -24,9 +28,8 @@ public class ElifOp extends Node{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ElifOp elifOp = (ElifOp) o;
-        return Objects.equals(expression, elifOp.expression) && Objects.equals(body, elifOp.body);
+        if (!(o instanceof WhileStatement that)) return false;
+        return Objects.equals(getExpression(), that.getExpression()) && Objects.equals(getBody(), that.getBody());
     }
 
     public Expression getExpression() {
