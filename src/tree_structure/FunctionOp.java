@@ -7,14 +7,14 @@ public class FunctionOp extends Node{
 
     private Identifier identifier;
     private ArrayList<ProcFunParamOp> procFunParamOpList;
-    private ArrayList<Type> procFunTypes;
+    private ArrayList<Type> returnTypes;
 
     private BodyOp body;
 
-    public FunctionOp(Identifier identifier, ArrayList<ProcFunParamOp> procFunParamOpList, ArrayList<Type> procFunTypes, BodyOp body) {
+    public FunctionOp(Identifier identifier, ArrayList<ProcFunParamOp> procFunParamOpList, ArrayList<Type> returnTypes, BodyOp body) {
         this.identifier = identifier;
         this.procFunParamOpList = procFunParamOpList;
-        this.procFunTypes = procFunTypes;
+        this.returnTypes = returnTypes;
         this.body = body;
     }
 
@@ -22,7 +22,7 @@ public class FunctionOp extends Node{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof FunctionOp that)) return false;
-        return Objects.equals(getIdentifier(), that.getIdentifier()) && Objects.equals(getProcFunParamOpList(), that.getProcFunParamOpList()) && Objects.equals(getProcFunTypes(), that.getProcFunTypes()) && Objects.equals(getBody(), that.getBody());
+        return Objects.equals(getIdentifier(), that.getIdentifier()) && Objects.equals(getProcFunParamOpList(), that.getProcFunParamOpList()) && Objects.equals(getReturnTypes(), that.getReturnTypes()) && Objects.equals(getBody(), that.getBody());
     }
 
 
@@ -31,7 +31,7 @@ public class FunctionOp extends Node{
         return "FunctionOp{" +
                 "identifier=" + identifier +
                 ", procFunParamOpList=" + procFunParamOpList +
-                ", procFunTypes=" + procFunTypes +
+                ", procFunTypes=" + returnTypes +
                 ", body=" + body +
                 '}';
     }
@@ -52,12 +52,12 @@ public class FunctionOp extends Node{
         this.procFunParamOpList = procFunParamOpList;
     }
 
-    public ArrayList<Type> getProcFunTypes() {
-        return procFunTypes;
+    public ArrayList<Type> getReturnTypes() {
+        return returnTypes;
     }
 
-    public void setProcFunTypes(ArrayList<Type> procFunTypes) {
-        this.procFunTypes = procFunTypes;
+    public void setReturnTypes(ArrayList<Type> returnTypes) {
+        this.returnTypes = returnTypes;
     }
 
     public BodyOp getBody() {
