@@ -1,6 +1,7 @@
 package tree_structure;
 
 public interface Expression {
+    Object accept(Visitor v);
 }
 
 class AddOp extends Node implements Expression {
@@ -464,18 +465,18 @@ class real_const extends Node implements Expression {
 }
 
 class string_const extends Node implements Expression {
-    private int value;
+    private String value;
 
 
-    public string_const(int value) {
+    public string_const(String value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(String value) {
         this.value = value;
     }
 

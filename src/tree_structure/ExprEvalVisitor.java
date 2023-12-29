@@ -1,0 +1,199 @@
+package tree_structure;
+
+public class ExprEvalVisitor implements Visitor {
+    @Override
+    public Object visit(AddOp a) {
+        int leftVal =
+                (Integer) a.getLeft().accept(this);
+        int rightVal =
+                (Integer) a.getRight().accept(this);
+
+        return leftVal + rightVal;
+    }
+
+    @Override
+    public Object visit(AndOp a) {
+        boolean leftVal =
+                (Boolean) a.getLeft().accept(this);
+        boolean rightVal =
+                (Boolean) a.getRight().accept(this);
+
+        return leftVal && rightVal;
+    }
+
+    @Override
+    public Object visit(AssignStatement a) {
+        return null;
+    }
+
+    @Override
+    public Object visit(BodyOp b) {
+        return null;
+    }
+
+    @Override
+    public Object visit(DiffOp d) {
+        int leftVal =
+                (Integer) d.getLeft().accept(this);
+        int rightVal =
+                (Integer) d.getRight().accept(this);
+
+        return leftVal - rightVal;
+    }
+
+    @Override
+    public Object visit(DivOp d) {
+        int leftVal =
+                (Integer) d.getLeft().accept(this);
+        int rightVal =
+                (Integer) d.getRight().accept(this);
+
+        return leftVal / rightVal;
+    }
+
+    @Override
+    public Object visit(ElifOp e) {
+        return null;
+    }
+
+    @Override
+    public Object visit(EQOp e) {
+        Expression leftVal =
+                (Expression) e.getLeft().accept(this);
+        Expression rightVal =
+                (Expression) e.getRight().accept(this);
+        leftVal.accept(this). < rightVal.accept(this);
+        //TODO
+        return (leftVal < rightVal);
+    }
+
+    @Override
+    public Object visit(false_const f) {
+        return f.getValue();
+    }
+
+    @Override
+    public Object visit(FunCallOp f) {
+        return null;
+    }
+
+    @Override
+    public Object visit(FunctionOp f) {
+        return null;
+    }
+
+    @Override
+    public Object visit(GEOp g) {
+        return null;
+    }
+
+    @Override
+    public Object visit(GTOp g) {
+        return null;
+    }
+
+    @Override
+    public Object visit(IfStatement i) {
+        return null;
+    }
+
+    @Override
+    public Object visit(integer_const i) {
+        return i.getValue();
+    }
+
+    @Override
+    public Object visit(LEOp l) {
+        return null;
+    }
+
+    @Override
+    public Object visit(LTOp l) {
+        return null;
+    }
+
+    @Override
+    public Object visit(MulOp m) {
+        int leftVal =
+                (Integer) m.getLeft().accept(this);
+        int rightVal =
+                (Integer) m.getRight().accept(this);
+
+        return leftVal * rightVal;
+    }
+
+    @Override
+    public Object visit(NEOp n) {
+        return null;
+    }
+
+    @Override
+    public Object visit(NotOp n) {
+        return null;
+    }
+
+    @Override
+    public Object visit(OrOp o) {
+        boolean leftVal =
+                (Boolean) o.getLeft().accept(this);
+        boolean rightVal =
+                (Boolean) o.getRight().accept(this);
+
+        return leftVal || rightVal;
+    }
+
+    @Override
+    public Object visit(ProcFunParamOp p) {
+        return null;
+    }
+
+    @Override
+    public Object visit(ProgramOp p) {
+        return null;
+    }
+
+    @Override
+    public Object visit(ReadStatement r) {
+        return null;
+    }
+
+    @Override
+    public Object visit(real_const r) {
+        return r.getValue();
+    }
+
+    @Override
+    public Object visit(ReturnStatement r) {
+        return null;
+    }
+
+    @Override
+    public Object visit(string_const s) {
+        return s.getValue();
+    }
+
+    @Override
+    public Object visit(true_const t) {
+        return t.getValue();
+    }
+
+    @Override
+    public Object visit(UminusOp u) {
+        return null;
+    }
+
+    @Override
+    public Object visit(VarDeclOp v) {
+        return null;
+    }
+
+    @Override
+    public Object visit(WhileStatement w) {
+        return null;
+    }
+
+    @Override
+    public Object visit(WriteStatement w) {
+        return null;
+    }
+}
