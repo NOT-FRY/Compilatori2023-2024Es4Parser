@@ -1,6 +1,6 @@
 package tree_structure;
 
-public class ExprEvalVisitor implements Visitor {
+public class ExprEvalVisitor_OLD implements Visitor {
     @Override
     public Object visit(AddOp a) {
         int leftVal =

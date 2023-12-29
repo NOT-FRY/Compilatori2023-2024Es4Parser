@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public interface Statement {
+    Object accept(Visitor v);
 }
 
 enum WritingType{

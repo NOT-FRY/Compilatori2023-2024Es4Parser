@@ -4,11 +4,27 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class FunCallOp extends Node{
-    Identifier identifier;
-    ArrayList<Expression> expressions;
+    private Identifier identifier;
+    private ArrayList<Expression> expressions;
 
     public FunCallOp(Identifier identifier, ArrayList<Expression> expressions) {
         this.identifier = identifier;
+        this.expressions = expressions;
+    }
+
+    public Identifier getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(Identifier identifier) {
+        this.identifier = identifier;
+    }
+
+    public ArrayList<Expression> getExpressions() {
+        return expressions;
+    }
+
+    public void setExpressions(ArrayList<Expression> expressions) {
         this.expressions = expressions;
     }
 
