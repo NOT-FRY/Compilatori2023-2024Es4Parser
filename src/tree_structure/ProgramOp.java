@@ -3,11 +3,15 @@ package tree_structure;
 import java.util.ArrayList;
 import java.util.Objects;
 
+interface FunctionOrProcedure{
+     Object accept(Visitor v);
+}
+
 public class ProgramOp extends Node{
     private ArrayList<VarDeclOp> varDeclList;
-    private ArrayList<? extends Node> funProcList;
+    private ArrayList<? extends FunctionOrProcedure> funProcList;
 
-    public ProgramOp(ArrayList<VarDeclOp> varDeclList, ArrayList<? extends Node> funProcList) {
+    public ProgramOp(ArrayList<VarDeclOp> varDeclList, ArrayList<? extends FunctionOrProcedure> funProcList) {
         this.varDeclList = varDeclList;
         this.funProcList = funProcList;
     }
@@ -40,11 +44,11 @@ public class ProgramOp extends Node{
         this.varDeclList = varDeclList;
     }
 
-    public ArrayList<? extends Node> getFunProcList() {
+    public ArrayList<? extends FunctionOrProcedure> getFunProcList() {
         return funProcList;
     }
 
-    public void setFunProcList(ArrayList<? extends Node> funProcList) {
+    public void setFunProcList(ArrayList<? extends FunctionOrProcedure> funProcList) {
         this.funProcList = funProcList;
     }
 }

@@ -24,6 +24,7 @@ public interface Visitor {
     Object visit(NotOp n);
     Object visit(OrOp o);
     Object visit(ProcFunParamOp p);
+    Object visit(ProcedureOp p);
     Object visit(ProgramOp p);
     Object visit(ReadStatement r);
     Object visit(real_const r);

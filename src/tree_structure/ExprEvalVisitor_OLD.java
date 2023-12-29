@@ -175,6 +175,11 @@ public class ExprEvalVisitor_OLD implements Visitor {
     }
 
     @Override
+    public Object visit(ProcedureOp p) {
+        return null;
+    }
+
+    @Override
     public Object visit(ProgramOp p) {
         return null;
     }

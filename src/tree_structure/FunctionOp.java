@@ -3,7 +3,7 @@ package tree_structure;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class FunctionOp extends Node{
+public class FunctionOp extends Node implements FunctionOrProcedure{
 
     private Identifier identifier;
     private ArrayList<ProcFunParamOp> procFunParamOpList;

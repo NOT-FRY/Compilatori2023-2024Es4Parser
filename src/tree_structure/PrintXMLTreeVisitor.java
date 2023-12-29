@@ -377,8 +377,8 @@ public class PrintXMLTreeVisitor implements Visitor {
         for(VarDeclOp v : varDeclList){
             v.accept(this);
         }
-        ArrayList<? extends Node> paramOps = p.getFunProcList();
-        for(Node n : paramOps){
+        ArrayList<? extends FunctionOrProcedure> paramOps = p.getFunProcList();
+        for(FunctionOrProcedure n : paramOps){
             n.accept(this);
         }
         out.println("</ProgramOp>");
