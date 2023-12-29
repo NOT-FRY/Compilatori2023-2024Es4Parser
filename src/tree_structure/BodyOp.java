@@ -1,6 +1,7 @@
 package tree_structure;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class BodyOp extends Node{
     private ArrayList<VarDeclOp> varDeclList;
@@ -9,6 +10,22 @@ public class BodyOp extends Node{
     public BodyOp(ArrayList<VarDeclOp> varDeclList, ArrayList<Statement> statementList) {
         this.varDeclList = varDeclList;
         this.statementList = statementList;
+    }
+
+    @Override
+    public String toString() {
+        return "BodyOp{" +
+                "varDeclList=" + varDeclList +
+                ", statementList=" + statementList +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BodyOp bodyOp = (BodyOp) o;
+        return Objects.equals(varDeclList, bodyOp.varDeclList) && Objects.equals(statementList, bodyOp.statementList);
     }
 
     public ArrayList<VarDeclOp> getVarDeclList() {

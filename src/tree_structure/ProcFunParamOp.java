@@ -1,5 +1,7 @@
 package tree_structure;
 
+import java.util.Objects;
+
 enum Qualifier {
     OUT,
     INOUT,
@@ -15,6 +17,23 @@ public class ProcFunParamOp extends Node{
         this.identifier = identifier;
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "ProcFunParamOp{" +
+                "qualifier=" + qualifier +
+                ", identifier=" + identifier +
+                ", type=" + type +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ProcFunParamOp that)) return false;
+        return getQualifier() == that.getQualifier() && Objects.equals(getIdentifier(), that.getIdentifier()) && getType() == that.getType();
+    }
+
 
     public Qualifier getQualifier() {
         return qualifier;

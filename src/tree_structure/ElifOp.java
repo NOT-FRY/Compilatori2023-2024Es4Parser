@@ -1,5 +1,7 @@
 package tree_structure;
 
+import java.util.Objects;
+
 public class ElifOp extends Node{
     private Expression expression;
     private BodyOp body;
@@ -7,6 +9,22 @@ public class ElifOp extends Node{
     public ElifOp(Expression expression, BodyOp body) {
         this.expression = expression;
         this.body = body;
+    }
+
+    @Override
+    public String toString() {
+        return "ElifOp{" +
+                "expression=" + expression +
+                ", body=" + body +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ElifOp elifOp = (ElifOp) o;
+        return Objects.equals(expression, elifOp.expression) && Objects.equals(body, elifOp.body);
     }
 
     public Expression getExpression() {

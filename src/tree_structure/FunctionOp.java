@@ -1,6 +1,7 @@
 package tree_structure;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class FunctionOp extends Node{
 
@@ -15,6 +16,24 @@ public class FunctionOp extends Node{
         this.procFunParamOpList = procFunParamOpList;
         this.procFunTypes = procFunTypes;
         this.body = body;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof FunctionOp that)) return false;
+        return Objects.equals(getIdentifier(), that.getIdentifier()) && Objects.equals(getProcFunParamOpList(), that.getProcFunParamOpList()) && Objects.equals(getProcFunTypes(), that.getProcFunTypes()) && Objects.equals(getBody(), that.getBody());
+    }
+
+
+    @Override
+    public String toString() {
+        return "FunctionOp{" +
+                "identifier=" + identifier +
+                ", procFunParamOpList=" + procFunParamOpList +
+                ", procFunTypes=" + procFunTypes +
+                ", body=" + body +
+                '}';
     }
 
     public Identifier getIdentifier() {
