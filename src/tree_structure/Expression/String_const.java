@@ -5,7 +5,7 @@ import tree_structure.Visitor;
 
 import java.util.Objects;
 
-public class string_const extends Node implements Expression {
+public class String_const extends Node implements Expression {
     private String value;
 
     @Override
@@ -18,12 +18,12 @@ public class string_const extends Node implements Expression {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof string_const that)) return false;
+        if (!(o instanceof String_const that)) return false;
         return Objects.equals(getValue(), that.getValue());
     }
 
 
-    public string_const(String value) {
+    public String_const(String value) {
         this.value = value;
     }
 

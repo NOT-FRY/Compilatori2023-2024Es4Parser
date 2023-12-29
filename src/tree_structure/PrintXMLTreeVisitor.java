@@ -149,7 +149,7 @@ public class PrintXMLTreeVisitor implements Visitor {
     }
 
     @Override
-    public Object visit(false_const f) {
+    public Object visit(False_const f) {
         out.println("<false_const>");
         out.println(f.getValue());
         out.println("</false_const>");
@@ -239,7 +239,7 @@ public class PrintXMLTreeVisitor implements Visitor {
     }
 
     @Override
-    public Object visit(integer_const i) {
+    public Object visit(Integer_const i) {
         out.println("<integer_const>");
         out.println(i.getValue());
         out.println("</integer_const>");
@@ -403,7 +403,7 @@ public class PrintXMLTreeVisitor implements Visitor {
     }
 
     @Override
-    public Object visit(real_const r) {
+    public Object visit(Real_const r) {
         out.println("<real_const>");
         out.println(r.getValue());
         out.println("</real_const>");
@@ -413,17 +413,18 @@ public class PrintXMLTreeVisitor implements Visitor {
     @Override
     public Object visit(ReturnStatement r) {
         out.println("<ReturnStatement>");
-        out.println("Value");
-        Expression value =
-                (Expression) r.getExpression().accept(this);
-        out.println(value);
-        out.println("/Value");
+        out.println("Values");
+        ArrayList<Expression> expressions = r.getExpressions();
+        for(Expression e : expressions){
+            e.accept(this);
+        }
+        out.println("/Values");
         out.println("/ReturnStatement");
         return null;
     }
 
     @Override
-    public Object visit(string_const s) {
+    public Object visit(String_const s) {
         out.println("<string_const>");
         out.println(s.getValue());
         out.println("</string_const>");
@@ -431,7 +432,7 @@ public class PrintXMLTreeVisitor implements Visitor {
     }
 
     @Override
-    public Object visit(true_const t) {
+    public Object visit(True_const t) {
         out.println("<true_const>");
         out.println(t.getValue());
         out.println("</true_const>");

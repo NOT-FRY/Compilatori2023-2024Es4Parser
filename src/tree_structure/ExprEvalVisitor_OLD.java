@@ -70,7 +70,7 @@ public class ExprEvalVisitor_OLD implements Visitor {
     }
 
     @Override
-    public Object visit(false_const f) {
+    public Object visit(False_const f) {
         return f.getValue();
     }
 
@@ -110,7 +110,7 @@ public class ExprEvalVisitor_OLD implements Visitor {
     }
 
     @Override
-    public Object visit(integer_const i) {
+    public Object visit(Integer_const i) {
         return i.getValue();
     }
 
@@ -193,7 +193,7 @@ public class ExprEvalVisitor_OLD implements Visitor {
     }
 
     @Override
-    public Object visit(real_const r) {
+    public Object visit(Real_const r) {
         return r.getValue();
     }
 
@@ -203,12 +203,12 @@ public class ExprEvalVisitor_OLD implements Visitor {
     }
 
     @Override
-    public Object visit(string_const s) {
+    public Object visit(String_const s) {
         return s.getValue();
     }
 
     @Override
-    public Object visit(true_const t) {
+    public Object visit(True_const t) {
         return t.getValue();
     }
 

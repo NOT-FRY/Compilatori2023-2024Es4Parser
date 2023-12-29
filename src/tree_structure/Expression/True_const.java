@@ -3,12 +3,12 @@ package tree_structure.Expression;
 import tree_structure.Node;
 import tree_structure.Visitor;
 
-public class real_const extends Node implements Expression {
-    private int value;
+public class True_const extends Node implements Expression {
+    private boolean value;
 
     @Override
     public String toString() {
-        return "real_const{" +
+        return "true_const{" +
                 "value=" + value +
                 '}';
     }
@@ -16,26 +16,21 @@ public class real_const extends Node implements Expression {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof real_const realConst)) return false;
-        return getValue() == realConst.getValue();
+        if (!(o instanceof True_const trueConst)) return false;
+        return getValue() == trueConst.getValue();
     }
 
-
-    public real_const(int value) {
-        this.value = value;
+    public True_const() {
+        this.value = true;
     }
 
-    public int getValue() {
+    public boolean getValue() {
         return value;
     }
 
-    public void setValue(int value) {
-        this.value = value;
-    }
 
     @Override
     public Object accept(Visitor v){
         return v.visit(this);
     }
 }
-

@@ -4,15 +4,16 @@ import tree_structure.Expression.Expression;
 import tree_structure.Node;
 import tree_structure.Visitor;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class ReturnStatement extends Node implements Statement {
-    private Expression expression;
+    private ArrayList<Expression> expressions;
 
     @Override
     public String toString() {
         return "ReturnStatement{" +
-                "expression=" + expression +
+                "expression=" + expressions +
                 '}';
     }
 
@@ -20,15 +21,15 @@ public class ReturnStatement extends Node implements Statement {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ReturnStatement that)) return false;
-        return Objects.equals(getExpression(), that.getExpression());
+        return Objects.equals(getExpressions(), that.getExpressions());
     }
 
-    public Expression getExpression() {
-        return expression;
+    public ArrayList<Expression> getExpressions() {
+        return expressions;
     }
 
-    public void setExpression(Expression expression) {
-        this.expression = expression;
+    public void setExpression(ArrayList<Expression> expressions) {
+        this.expressions = expressions;
     }
 
     public Object accept(Visitor v) { return v.visit(this);}
