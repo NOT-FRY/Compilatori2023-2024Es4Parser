@@ -42,7 +42,7 @@ precedence left LPAR,RPAR;
 
 
 
-  Program ::= Iter Procedure Iter;
+  Program ::= Iter Procedure Iter {:RESULT = new ProgramOp :};
 
   Iter ::= VarDecl Iter
         | Function Iter
@@ -51,10 +51,10 @@ precedence left LPAR,RPAR;
 
   VarDecl ::= VAR Decls;
 
-  Decls ::= Ids COLON Type SEMI Decls
-  	| Ids ASSIGN Consts SEMI Decls
-  	| Ids COLON Type SEMI ENDVAR
-  	| Ids ASSIGN Consts SEMI ENDVAR;
+  Decls ::= Ids:id COLON Type SEMI Decls
+  	| Ids:id ASSIGN Consts SEMI Decls
+  	| Ids:id COLON Type SEMI ENDVAR
+  	| Ids:id ASSIGN Consts SEMI ENDVAR;
 
   Ids ::= ID COMMA Ids
           | ID;
@@ -62,69 +62,76 @@ precedence left LPAR,RPAR;
   Consts ::= Const COMMA Consts
   	| Const;
 
-  Const ::= REAL_CONST
-  	| INTEGER_CONST
-  	| STRING_CONST
-  	| TRUE
-  	| FALSE;
+  Const ::= REAL_CONST  {:RESULT = new Real_const(value); :}
+  	| INTEGER_CONST     {:RESULT = new Integer_const(value); :}
+  	| STRING_CONST      {:RESULT = new String_const(value); :}
+  	| TRUE              {:RESULT = new True_const(); :}
+  	| FALSE            {:RESULT = new False_const(); :} ;
 
-  Type ::= REAL
-  	| INTEGER
-  	| STRING
-  	| BOOLEAN;
+  Type ::= REAL {: RESULT = Type.REAL; :}
+  	| INTEGER   {: RESULT = Type.INTEGER; :}
+  	| STRING    {: RESULT = Type.STRING; :}
+  	| BOOLEAN  {: RESULT = Type.BOOL; :};
 
-  Function  ::= FUNCTION ID LPAR FuncParams RPAR TYPERETURN Types COLON Body ENDFUNCTION;
+  Function  ::= FUNCTION:id LPAR FuncParams:params RPAR TYPERETURN Types:types COLON Body:body ENDFUNCTION {:RESULT = new FunctionOp(id,params,types,body); :};
 
-  FuncParams ::= ID COLON Type OtherFuncParams
-  	    | /* empty */;
+  FuncParams ::= ID:id COLON Type:type OtherFuncParams:params {: RESULT = :}
+  	    | /* empty */{:RESULT = null; :};
 
   OtherFuncParams ::= COMMA ID COLON Type OtherFuncParams
-  	    | /* empty */;
+  	    | /* empty */{:RESULT = null; :};
 
-  Types ::= Type COMMA Types
-  	| Type;
+  Types ::= Type:type COMMA Types:typeList {:typeList.add(type);:}
+  	| Type:type {: ArrayList<Type> typeList = new ArrayList<Type>();
+  	        typeList.add(type);
+  	        RESULT = typeList;
+  	:};
 
-  Procedure ::= PROCEDURE ID LPAR ProcParams RPAR COLON Body ENDPROCEDURE;
+  Procedure ::= PROCEDURE ID:id LPAR ProcParams:params RPAR COLON Body:body ENDPROCEDURE
+  {:  RESULT = new ProcedureOp(id,params,body); :}
+  ;
 
-  ProcParams::= ProcParamId COLON Type OtherProcParams
-  	   | /* empty */;
+  ProcParams::= ProcParamId:id COLON Type:type OtherProcParams:params {: RESULT = new ProcFunParamOp(null,id);:}
+  	   | /* empty */{:RESULT = null; :};
 
-  OtherProcParams ::= COMMA ProcParamId COLON Type OtherProcParams
-  	   | /* empty */;
+  OtherProcParams ::= COMMA ProcParamId:id COLON Type:type OtherProcParams:params {::}
+  	   | /* empty */{:RESULT = null; :};
 
   ProcParamId ::= ID
   	    | OUT ID;
 
-  Body ::= VarDecl Body
-  	| Stat Body
-  	| /* empty */;
+  Body ::= VarDecl:vardecl Body:body {:RESULT :}
+  	| Stat:statements Body:body {: RESULT = new BodyOp(null,statements); :}
+  	| /* empty */{:RESULT = null; :};
 
-  Stat ::= Ids ASSIGN Exprs SEMI
+  Stat ::= Ids:idList ASSIGN Exprs:exprList SEMI {: RESULT = new AssignStatement(idList,exprList); :}
   	 | ProcCall  SEMI
-  	 | RETURN Exprs SEMI
+  	 | RETURN Exprs:exprList SEMI {:RESULT = new ReturnStatement(exprList);:}
   	 | WRITE IOArgs SEMI
   	 | WRITERETURN IOArgs SEMI
   	 | READ IOArgs SEMI
-  	 | IfStat SEMI
-  	 | WhileStat SEMI;
+  	 | IfStat:ifStat SEMI {:RESULT = ifStat; :}
+  	 | WhileStat:whileStat SEMI {:RESULT = whileStat; :} ;
 
-  FunCall ::= ID LPAR Exprs RPAR           /* chiamata con almeno un parametro */
-           | ID LPAR RPAR;                 /* chiamata con nessun parametro */
+  FunCall ::= ID:id LPAR Exprs:expressions RPAR {: RESULT = new FunCallOp(id,expressions); :}           /* chiamata con almeno un parametro */
+           | ID LPAR RPAR  {: RESULT = new FunCallOp(id,null); :};               /* chiamata con nessun parametro */
 
   ProcCall ::= ID LPAR ProcExprs RPAR    /* chiamata con almeno un parametro */
            | ID LPAR RPAR;             /* chiamata con nessun parametro */
 
-  IfStat ::= IF Expr THEN Body Elifs Else ENDIF;
+  IfStat ::= IF Expr:expr THEN Body:body Elifs:elifs Else:elseBody ENDIF
+    {: RESULT = new IfStatement(expr, body,elifs,elseBody);  :}
+  ;
 
-  Elifs ::= Elif Elifs
-        | /* empty */;
+  Elifs ::= Elif:e Elifs:elifsList {:elifsList.add(e); RESULT = elifsList; :}
+        | /* empty */{: RESULT = null; :};
 
-  Elif ::= ELIF Expr THEN Body;
+  Elif ::= ELIF Expr:expr THEN Body:body{:RESULT = new ElifOp(expr,body);:};
 
   Else ::= ELSE Body
        | /* empty */;
 
-  WhileStat ::= WHILE Expr DO Body ENDWHILE;
+  WhileStat ::= WHILE Expr:expr DO Body:body ENDWHILE{:RESULT = new WhileStatement(expr,body); :};
 
   IOArgs ::= Expr IOArgs    /* qui l'Expr corretta è concatenazione di stringhe o singola stringa*/
          |  DOLLARSIGN LPAR Expr RPAR IOArgs
@@ -135,30 +142,33 @@ precedence left LPAR,RPAR;
       | Expr
   	  | REF ID;
 
-  Exprs ::= Expr COMMA Exprs
-  	| Expr;
+  Exprs ::= Expr:e COMMA Exprs:exprList {: exprList.add(e); RESULT = exprList; :}
+  	| Expr:e {: ArrayList<Expression> exprlist = new ArrayList<Expression>();
+                exprlist.add(e);
+                RESULT = exprList;
+  	            :};
 
 
   Expr ::= FunCall
-  	| REAL_CONST
-    | INTEGER_CONST
-  	| STRING_CONST
-  	| ID
-    | TRUE
-    | FALSE
-    | Expr:e1  PLUS Expr:e2 {:RESULT = e1+e2; :}
-  	| Expr:e1  MINUS Expr:e2 {:RESULT = e1-e2; :}
-  	| Expr:e1  TIMES Expr:e2 {:RESULT = e1*e2; :}
-  	| Expr:e1  DIV Expr:e2 {:RESULT = e1/e2; :}
-  	| Expr:e1  AND Expr:e2 {:RESULT = e1&&e2; :}
-  	| Expr:e1  OR Expr:e2 {:RESULT = e1||e2; :}
-  	| Expr:e1  GT Expr:e2 {:RESULT = e1>e2; :}
-  	| Expr:e1  GE Expr:e2 {:RESULT = e1>=e2; :}
-  	| Expr:e1  LT Expr:e2 {:RESULT = e1<e2; :}
-  	| Expr:e1  LE Expr:e2 {:RESULT = e1<=e2; :}
-  	| Expr:e1  EQ Expr:e2 {:RESULT = e1=e2; :}
-  	| Expr:e1  NE Expr:e2 {:RESULT = e1!=e2; :}
-  	| LPAR Expr RPAR
-  	| MINUS Expr:e {:RESULT = -e; :}
+  	| REAL_CONST:value    {:RESULT = new Real_const(value); :}
+    | INTEGER_CONST:value   {:RESULT = new Integer_const(value); :}
+  	| STRING_CONST:value    {:RESULT = new String_const(value); :}
+  	| ID:value              {:RESULT = new Identifier(value); :}
+    | TRUE                  {:RESULT = new True_const(); :}
+    | FALSE                 {:RESULT = new False_const(); :}
+    | Expr:e1  PLUS Expr:e2 {:RESULT = new AddOp(e1,e2); :}
+  	| Expr:e1  MINUS Expr:e2 {:RESULT = new DiffOp(e1,e2); :}
+  	| Expr:e1  TIMES Expr:e2 {:RESULT = new MulOp(e1,e2); :}
+  	| Expr:e1  DIV Expr:e2 {:RESULT = new DivOp(e1,e2); :}
+  	| Expr:e1  AND Expr:e2 {:RESULT = new AndOp(e1,e2); :}
+  	| Expr:e1  OR Expr:e2 {:RESULT = new OrOp(e1,e2); :}
+  	| Expr:e1  GT Expr:e2 {:RESULT = new GTOp(e1,e2); :}
+  	| Expr:e1  GE Expr:e2 {:RESULT = new GEOp(e1,e2); :}
+  	| Expr:e1  LT Expr:e2 {:RESULT = new LTOp(e1,e2); :}
+  	| Expr:e1  LE Expr:e2 {:RESULT = new LEOp(e1,e2); :}
+  	| Expr:e1  EQ Expr:e2 {:RESULT = new EQOp(e1,e2); :}
+  	| Expr:e1  NE Expr:e2 {:RESULT = new NEOp(e1,e2); :}
+  	| LPAR Expr:e RPAR {:RESULT = e; :}
+  	| MINUS Expr:e {:RESULT = new UminusOp(e); :}
   	    %prec UMINUS
-  	| NOT Expr:e {:RESULT = !e; :};
+  	| NOT Expr:e {:RESULT = new NotOp(e); :};
