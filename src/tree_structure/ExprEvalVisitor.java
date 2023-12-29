@@ -62,9 +62,8 @@ public class ExprEvalVisitor implements Visitor {
                 (Expression) e.getLeft().accept(this);
         Expression rightVal =
                 (Expression) e.getRight().accept(this);
-        leftVal.accept(this). < rightVal.accept(this);
-        //TODO
-        return (leftVal < rightVal);
+
+        return (leftVal == rightVal);
     }
 
     @Override
@@ -84,12 +83,22 @@ public class ExprEvalVisitor implements Visitor {
 
     @Override
     public Object visit(GEOp g) {
-        return null;
+        int leftVal =
+                (Integer) g.getLeft().accept(this);
+        int rightVal =
+                (Integer) g.getRight().accept(this);
+
+        return (leftVal >= rightVal);
     }
 
     @Override
     public Object visit(GTOp g) {
-        return null;
+        int leftVal =
+                (Integer) g.getLeft().accept(this);
+        int rightVal =
+                (Integer) g.getRight().accept(this);
+
+        return (leftVal > rightVal);
     }
 
     @Override
@@ -104,12 +113,22 @@ public class ExprEvalVisitor implements Visitor {
 
     @Override
     public Object visit(LEOp l) {
-        return null;
+        int leftVal =
+                (Integer) l.getLeft().accept(this);
+        int rightVal =
+                (Integer) l.getRight().accept(this);
+
+        return (leftVal <= rightVal);
     }
 
     @Override
     public Object visit(LTOp l) {
-        return null;
+        int leftVal =
+                (Integer) l.getLeft().accept(this);
+        int rightVal =
+                (Integer) l.getRight().accept(this);
+
+        return (leftVal < rightVal);
     }
 
     @Override
@@ -124,12 +143,20 @@ public class ExprEvalVisitor implements Visitor {
 
     @Override
     public Object visit(NEOp n) {
-        return null;
+        Expression leftVal =
+                (Expression) n.getLeft().accept(this);
+        Expression rightVal =
+                (Expression) n.getRight().accept(this);
+
+        return (leftVal != rightVal);
     }
 
     @Override
     public Object visit(NotOp n) {
-        return null;
+        boolean value =
+                (Boolean) n.getValue().accept(this);
+
+        return !value;
     }
 
     @Override
