@@ -1,24 +1,26 @@
 package tree_structure;
 
+import tree_structure.Expression.Expression;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class VarDeclOp extends Node{
+public class VarDeclOp extends Node implements Expression {
 
 
-    private ArrayList<IdentifierExpression> identifierExpressionList;
+    private ArrayList<Expression> expressionList;
     private Type type;
 
-    public VarDeclOp(ArrayList<IdentifierExpression> identifierExpressionList, Type type) {
-        this.identifierExpressionList = identifierExpressionList;
+    public VarDeclOp(ArrayList<Expression> expressionList, Type type) {
+        this.expressionList = expressionList;
         this.type = type;
     }
 
     @Override
     public String toString() {
         return "VarDeclOp{" +
-                "identifierExpressionList=" + identifierExpressionList +
+                "identifierExpressionList=" + expressionList +
                 ", type=" + type +
                 '}';
     }
@@ -27,16 +29,16 @@ public class VarDeclOp extends Node{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof VarDeclOp varDeclOp)) return false;
-        return Objects.equals(getIdentifierExpressionList(), varDeclOp.getIdentifierExpressionList()) && getType() == varDeclOp.getType();
+        return Objects.equals(getExpressionList(), varDeclOp.getExpressionList()) && getType() == varDeclOp.getType();
     }
 
 
-    public ArrayList<IdentifierExpression> getIdentifierExpressionList() {
-        return identifierExpressionList;
+    public ArrayList<Expression> getExpressionList() {
+        return expressionList;
     }
 
-    public void setIdentifierExpressionList(ArrayList<IdentifierExpression> identifierExpressionList) {
-        this.identifierExpressionList = identifierExpressionList;
+    public void setExpressionList(ArrayList<Expression> expressionList) {
+        this.expressionList = expressionList;
     }
 
     public Type getType() {

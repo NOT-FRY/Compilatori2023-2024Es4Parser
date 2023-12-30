@@ -2,18 +2,24 @@ package tree_structure;
 
 import java.util.Objects;
 
-enum Qualifier {
+/*enum Qualifier {
     OUT,
     INOUT,
     IN
-}
+}*/
+/*ProcParamId ::= ID
+        | OUT ID;
+ Per via di questa produzione, abbiamo deciso di inserire il qualifier nell'identificatore,
+ un' altra soluzione sarebbe stata quella di creare un'altra classe ProcParamId con l'identificatore associato
+ al qualifier.
+
+ */
 public class ProcFunParamOp extends Node{
-    private Qualifier qualifier;
+    //private Qualifier qualifier;
     private Identifier identifier;
     private Type type;
 
-    public ProcFunParamOp(Qualifier qualifier, Identifier identifier, Type type) {
-        this.qualifier = qualifier;
+    public ProcFunParamOp(Identifier identifier, Type type) {
         this.identifier = identifier;
         this.type = type;
     }
@@ -21,8 +27,7 @@ public class ProcFunParamOp extends Node{
     @Override
     public String toString() {
         return "ProcFunParamOp{" +
-                "qualifier=" + qualifier +
-                ", identifier=" + identifier +
+                "identifier=" + identifier +
                 ", type=" + type +
                 '}';
     }
@@ -31,16 +36,7 @@ public class ProcFunParamOp extends Node{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof ProcFunParamOp that)) return false;
-        return getQualifier() == that.getQualifier() && Objects.equals(getIdentifier(), that.getIdentifier()) && getType() == that.getType();
-    }
-
-
-    public Qualifier getQualifier() {
-        return qualifier;
-    }
-
-    public void setQualifier(Qualifier qualifier) {
-        this.qualifier = qualifier;
+        return  Objects.equals(getIdentifier(), that.getIdentifier()) && getType() == that.getType();
     }
 
     public Identifier getIdentifier() {

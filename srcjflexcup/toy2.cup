@@ -49,18 +49,52 @@ precedence left LPAR,RPAR;
         | Procedure Iter
         | /* empty */;
 
-  VarDecl ::= VAR Decls;
+  VarDecl ::= VAR Decls:decls{:RESULT = decls;:};
 
-  Decls ::= Ids:id COLON Type SEMI Decls
-  	| Ids:id ASSIGN Consts SEMI Decls
-  	| Ids:id COLON Type SEMI ENDVAR
-  	| Ids:id ASSIGN Consts SEMI ENDVAR;
+  Decls ::= Ids:idList COLON Type:type SEMI Decls:declsList
+                                      {:
+                                        VarDeclOp decl = new VarDeclOp(idList,type);
+                                        declsList.add(decl);
+                                        RESULT = declsList;
+                                      :}
+  	| Ids:idList ASSIGN Consts:constList SEMI Decls:declsList
+  	                                                   {:
+                                                            AssignStatement assignStatement = new AssignStatement(idList,constList);
+                                                            for(Expression e : declsList){
+                                                                assignStatement.addExpression(e);
+                                                            }
+                                                            RESULT = assignStatement;
+                                                        :}
+  	| Ids:idList COLON Type:type SEMI ENDVAR
+  	                                {:
+                                        RESULT = new VarDeclOp(idList,type);
+  	                                :}
+  	| Ids:idList ASSIGN Consts:constList SEMI ENDVAR
+                                {:
+                                    RESULT = new AssignStatement(idList,constList);
+                                :}
+  	;
 
-  Ids ::= ID COMMA Ids
-          | ID;
-
-  Consts ::= Const COMMA Consts
-  	| Const;
+  Ids ::= ID:id COMMA Ids:idList
+                            {:
+                            idList.add(c);
+                            RESULT = idList;
+                            :}
+          | ID:id
+          {: ArrayList<Identifier> idList = new ArrayList<Identifier>();
+            	            idList.add(c);
+            	            RESULT = idList;
+            	           :};
+//Consts è una lista di espressioni
+  Consts ::= Const:c COMMA Consts:constsList
+                            {:
+                            constsList.add(c);
+                            RESULT= constsList;
+                            :}
+  	| Const:c {: ArrayList<Expression> constsList = new ArrayList<Expression>();
+  	            constsList.add(c);
+  	            RESULT = constsList;
+  	           :};
 
   Const ::= REAL_CONST  {:RESULT = new Real_const(value); :}
   	| INTEGER_CONST     {:RESULT = new Integer_const(value); :}
@@ -75,11 +109,19 @@ precedence left LPAR,RPAR;
 
   Function  ::= FUNCTION:id LPAR FuncParams:params RPAR TYPERETURN Types:types COLON Body:body ENDFUNCTION {:RESULT = new FunctionOp(id,params,types,body); :};
 
-  FuncParams ::= ID:id COLON Type:type OtherFuncParams:params {: RESULT = :}
-  	    | /* empty */{:RESULT = null; :};
+  FuncParams ::= ID:id COLON Type:type OtherFuncParams:params {:
+                                                                ProcFunParamOp funParamOp = new ProcFunParamOp(id,type);
+                                                                params.add(funParamOp);
+                                                                RESULT = params;:}
+  	    | /* empty */{:RESULT = new ArrayList<ProcFunParamOp>(); :};
 
-  OtherFuncParams ::= COMMA ID COLON Type OtherFuncParams
-  	    | /* empty */{:RESULT = null; :};
+  OtherFuncParams ::= COMMA ID:id COLON Type:type OtherFuncParams:otherParams
+                                              {:
+                                                ProcFunParamOp funParamOp = new ProcFunParamOp(id,type);
+                                                otherParams.add(funParamOp);
+                                                RESULT = otherParams;
+                                             :}
+  	    | /* empty */{:RESULT = new ArrayList<ProcFunParamOp>(); :};
 
   Types ::= Type:type COMMA Types:typeList {:typeList.add(type);:}
   	| Type:type {: ArrayList<Type> typeList = new ArrayList<Type>();
@@ -91,56 +133,97 @@ precedence left LPAR,RPAR;
   {:  RESULT = new ProcedureOp(id,params,body); :}
   ;
 
-  ProcParams::= ProcParamId:id COLON Type:type OtherProcParams:params {: RESULT = new ProcFunParamOp(null,id);:}
-  	   | /* empty */{:RESULT = null; :};
+  ProcParams::= ProcParamId:id COLON Type:type OtherProcParams:params
+                                      {:ProcFunParamOp procParam = new ProcFunParamOp(id,type);
+                                        params.add(procParams);
+                                        RESULT = params;
+                                       :}
+  | /* empty */{:RESULT = new ArrayList<ProcFunParamOp>();:};
 
-  OtherProcParams ::= COMMA ProcParamId:id COLON Type:type OtherProcParams:params {::}
-  	   | /* empty */{:RESULT = null; :};
+  OtherProcParams ::= COMMA ProcParamId:id COLON Type:type OtherProcParams:otherParams
+                                       {:ProcFunParamOp procParam = new ProcFunParamOp(id,type);
+                                         otherParams.add(procParams);
+                                         RESULT = otherParams;
+                                       :}
+  	   | /* empty */{:RESULT = new ArrayList<ProcFunParamOp>(); :};
 
-  ProcParamId ::= ID
-  	    | OUT ID;
+  ProcParamId ::= ID:id {: RESULT = new Identifier(id);:}
+  	    | OUT ID {:RESULT = new Identifier(id,Qualifier.OUT); :};
 
-  Body ::= VarDecl:vardecl Body:body {:RESULT :}
-  	| Stat:statements Body:body {: RESULT = new BodyOp(null,statements); :}
-  	| /* empty */{:RESULT = null; :};
+  Body ::= VarDecl:vardecl Body:body {:
+                                      body.addVarDecl(vardecl);
+                                      RESULT = body;
+                                      :}
+  	| Stat:statement Body:body {:
+                                 body.addStatement(statement);
+  	                             RESULT = body;
+  	                            :}
+  	| /* empty */{:RESULT = new BodyOp(); :};
 
   Stat ::= Ids:idList ASSIGN Exprs:exprList SEMI {: RESULT = new AssignStatement(idList,exprList); :}
-  	 | ProcCall  SEMI
+  	 | ProcCall:procCall  SEMI {:RESULT = procCall;:}
   	 | RETURN Exprs:exprList SEMI {:RESULT = new ReturnStatement(exprList);:}
-  	 | WRITE IOArgs SEMI
-  	 | WRITERETURN IOArgs SEMI
-  	 | READ IOArgs SEMI
+  	 | WRITE IOArgs:IOArgsList SEMI {: RESULT = new WriteStatement(WritingType.WRITE, IOArgsList);:}
+  	 | WRITERETURN IOArgs:IOArgsList SEMI {: RESULT = new WriteStatement(WritingType.WRITE, IOArgsList);:}
+  	 | READ IOArgs:IOArgsList SEMI {: RESULT = new ReadStatement(IOArgsList);:}
   	 | IfStat:ifStat SEMI {:RESULT = ifStat; :}
   	 | WhileStat:whileStat SEMI {:RESULT = whileStat; :} ;
 
   FunCall ::= ID:id LPAR Exprs:expressions RPAR {: RESULT = new FunCallOp(id,expressions); :}           /* chiamata con almeno un parametro */
-           | ID LPAR RPAR  {: RESULT = new FunCallOp(id,null); :};               /* chiamata con nessun parametro */
+           | ID:id LPAR RPAR  {: RESULT = new FunCallOp(id); :};               /* chiamata con nessun parametro */
 
-  ProcCall ::= ID LPAR ProcExprs RPAR    /* chiamata con almeno un parametro */
-           | ID LPAR RPAR;             /* chiamata con nessun parametro */
+  ProcCall ::= ID:id LPAR ProcExprs:procedureExpressionList RPAR {: RESULT = new ProcCallOp(id,procedureExpressionList); :}    /* chiamata con almeno un parametro */
+           | ID:id LPAR RPAR {: RESULT = new ProcCallOp(id);:};             /* chiamata con nessun parametro */
 
   IfStat ::= IF Expr:expr THEN Body:body Elifs:elifs Else:elseBody ENDIF
     {: RESULT = new IfStatement(expr, body,elifs,elseBody);  :}
   ;
 
   Elifs ::= Elif:e Elifs:elifsList {:elifsList.add(e); RESULT = elifsList; :}
-        | /* empty */{: RESULT = null; :};
+        | /* empty */{: RESULT = new ArrayList<ElifOp>(); :};
 
   Elif ::= ELIF Expr:expr THEN Body:body{:RESULT = new ElifOp(expr,body);:};
 
-  Else ::= ELSE Body
-       | /* empty */;
+  Else ::= ELSE Body:body {:RESULT = new ElseOp(body);:}
+       | /* empty */{: RESULT = null; :}
+       ;
 
   WhileStat ::= WHILE Expr:expr DO Body:body ENDWHILE{:RESULT = new WhileStatement(expr,body); :};
 
-  IOArgs ::= Expr IOArgs    /* qui l'Expr corretta è concatenazione di stringhe o singola stringa*/
-         |  DOLLARSIGN LPAR Expr RPAR IOArgs
-         | /* empty */;
+  IOArgs ::= Expr:expression IOArgs:IOArgsList {:
+                                                IOArg arg = new IOArg(expression,false);
+                                                IOArgsList.add(expression);
+                                                RESULT = IOARgsList;
+                                                :}    /* qui l'Expr corretta è concatenazione di stringhe o singola stringa*/
+         |  DOLLARSIGN LPAR Expr:expression RPAR IOArgs:IOArgsList {:
+                                                                    IOArg arg = new IOArg(expression,true);
+                                                                    IOArgsList.add(expression);
+                                                                    RESULT = IOARgsList;
+                                                                    :}
+         | /* empty */{: RESULT = new ArrayList<IOArg>(); :};
 
-  ProcExprs::= Expr COMMA ProcExprs
-  	  | REF ID COMMA ProcExprs
-      | Expr
-  	  | REF ID;
+  ProcExprs::= Expr:expression COMMA ProcExprs:procedureExpressions {:
+                                                                        ProcedureExpression pe = new ProcedureExpression(expression,false,null);
+                                                                        procedureExpressions.add(pe);
+                                                                        RESULT = procedureExpressions;
+                                                                     :}
+  	  | REF ID:id COMMA ProcExprs:procedureExpressions {:
+                                                            ProcedureExpression pe = new ProcedureExpression(null,true,id);
+  	                                                        procedureExpressions.add(expression);
+  	                                                        RESULT = procedureExpressions;
+  	                                                    :}
+      | Expr:expression {:
+                        ArrayList<ProcedureExpression> PEList = new ArrayList<ProcedureExpression>();
+                        ProcedureExpression pe = new ProcedureExpression(expression,false,null);
+                        PEList.add(pe);
+                        RESULT = PEList;
+                        :}
+  	  | REF ID:id {:
+                        ArrayList<ProcedureExpression> PEList = new ArrayList<ProcedureExpression>();
+                        ProcedureExpression pe = new ProcedureExpression(null,true,id);
+                        PEList.add(pe);
+                        RESULT = PEList;
+  	               :};
 
   Exprs ::= Expr:e COMMA Exprs:exprList {: exprList.add(e); RESULT = exprList; :}
   	| Expr:e {: ArrayList<Expression> exprlist = new ArrayList<Expression>();
@@ -149,7 +232,7 @@ precedence left LPAR,RPAR;
   	            :};
 
 
-  Expr ::= FunCall
+  Expr ::= FunCall:funCall        {:RESULT = funCall; :}
   	| REAL_CONST:value    {:RESULT = new Real_const(value); :}
     | INTEGER_CONST:value   {:RESULT = new Integer_const(value); :}
   	| STRING_CONST:value    {:RESULT = new String_const(value); :}

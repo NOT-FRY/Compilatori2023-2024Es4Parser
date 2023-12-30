@@ -38,5 +38,8 @@ public interface Visitor {
     Object visit(VarDeclOp v);
     Object visit(WhileStatement w);
     Object visit(WriteStatement w);
-
+    Object visit(ProcedureExpression p);
+    Object visit(ProcCallOp p);
+    Object visit(IOArg ioArg);
+    Object visit(ElseOp elseOp);
 }

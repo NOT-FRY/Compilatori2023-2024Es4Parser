@@ -14,6 +14,11 @@ public class FunCallOp extends Node{
         this.expressions = expressions;
     }
 
+    public FunCallOp(Identifier identifier) {
+        this.identifier = identifier;
+        this.expressions = new ArrayList<Expression>();
+    }
+
     public Identifier getIdentifier() {
         return identifier;
     }

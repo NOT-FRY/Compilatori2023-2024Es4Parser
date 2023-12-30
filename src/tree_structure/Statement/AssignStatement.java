@@ -8,7 +8,7 @@ import tree_structure.Visitor;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class AssignStatement extends Node implements Statement {
+public class AssignStatement extends Node implements Statement,Expression {
     private ArrayList<Identifier> identifiers;
 
     private ArrayList<Expression> expressions;
@@ -16,6 +16,10 @@ public class AssignStatement extends Node implements Statement {
     public AssignStatement(ArrayList<Identifier> identifiers, ArrayList<Expression> expressions) {
         this.identifiers = identifiers;
         this.expressions = expressions;
+    }
+
+    public void addExpression(Expression e){
+        expressions.add(e);
     }
 
     @Override

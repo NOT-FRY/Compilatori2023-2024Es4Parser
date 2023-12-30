@@ -9,9 +9,23 @@ public class BodyOp extends Node{
     private ArrayList<VarDeclOp> varDeclList;
     private ArrayList<Statement> statementList;
 
+
+    public BodyOp() {
+        varDeclList = new ArrayList<VarDeclOp>();
+        statementList = new ArrayList<Statement>();
+    }
+
     public BodyOp(ArrayList<VarDeclOp> varDeclList, ArrayList<Statement> statementList) {
         this.varDeclList = varDeclList;
         this.statementList = statementList;
+    }
+
+    public void addStatement(Statement s){
+        statementList.add(s);
+    }
+
+    public void addVarDecl(VarDeclOp v){
+        varDeclList.add(v);
     }
 
     @Override
