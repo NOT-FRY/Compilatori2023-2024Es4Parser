@@ -3,16 +3,17 @@ package tree_structure;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class ProgramOp extends Node{
+public class IterOp extends Node{
+
     private ArrayList<VarDeclOp> varDeclList;
     private ArrayList<FunctionOrProcedure> funProcList;
 
-    public ProgramOp() {
+    public IterOp() {
         varDeclList = new ArrayList<VarDeclOp>();
         funProcList = new ArrayList<FunctionOrProcedure>();
     }
 
-    public ProgramOp(ArrayList<VarDeclOp> varDeclList, ArrayList<FunctionOrProcedure> funProcList) {
+    public IterOp(ArrayList<VarDeclOp> varDeclList, ArrayList<FunctionOrProcedure> funProcList) {
         this.varDeclList = varDeclList;
         this.funProcList = funProcList;
     }
@@ -23,26 +24,6 @@ public class ProgramOp extends Node{
 
     public void addFunctionOrProcedure(FunctionOrProcedure f){
         funProcList.add(f);
-    }
-
-    @Override
-    public String toString() {
-        return "ProgramOp{" +
-                "varDeclList=" + varDeclList +
-                ", funProcList=" + funProcList +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof ProgramOp programOp)) return false;
-        return Objects.equals(getVarDeclList(), programOp.getVarDeclList()) && Objects.equals(getFunProcList(), programOp.getFunProcList());
-    }
-
-
-    public Object accept(Visitor v){
-        return v.visit(this);
     }
 
     public ArrayList<VarDeclOp> getVarDeclList() {
@@ -59,5 +40,26 @@ public class ProgramOp extends Node{
 
     public void setFunProcList(ArrayList<FunctionOrProcedure> funProcList) {
         this.funProcList = funProcList;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IterOp iterOp = (IterOp) o;
+        return Objects.equals(varDeclList, iterOp.varDeclList) && Objects.equals(funProcList, iterOp.funProcList);
+    }
+
+    @Override
+    public String toString() {
+        return "IterOp{" +
+                "varDeclList=" + varDeclList +
+                ", funProcList=" + funProcList +
+                '}';
+    }
+
+    @Override
+    public Object accept(Visitor v) {
+        return v.visit(this);
     }
 }

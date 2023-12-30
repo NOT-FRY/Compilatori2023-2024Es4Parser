@@ -231,4 +231,29 @@ public class ExprEvalVisitor_OLD implements Visitor {
     public Object visit(WriteStatement w) {
         return null;
     }
+
+    @Override
+    public Object visit(ProcedureExpression p) {
+        return null;
+    }
+
+    @Override
+    public Object visit(ProcCallOp p) {
+        return null;
+    }
+
+    @Override
+    public Object visit(IOArg ioArg) {
+        return null;
+    }
+
+    @Override
+    public Object visit(ElseOp elseOp) {
+        return null;
+    }
+
+    @Override
+    public Object visit(IterOp iterOp) {
+        return null;
+    }
 }

@@ -42,4 +42,6 @@ public interface Visitor {
     Object visit(ProcCallOp p);
     Object visit(IOArg ioArg);
     Object visit(ElseOp elseOp);
+
+    Object visit(IterOp iterOp);
 }

@@ -350,6 +350,12 @@ public class PrintXMLTreeVisitor implements Visitor {
     @Override
     public Object visit(ProcFunParamOp p) {
         out.println("<ProcFunParamOp>");
+        Qualifier q = p.getIdentifier().getQualifier();
+        if(q!=null){
+            out.println("<Qualifier>");
+            out.println(q);
+            out.println("</Qualifier>");
+        }
         p.getIdentifier().accept(this);
         Type type = p.getType();
         out.println("<Type>");
@@ -496,13 +502,28 @@ public class PrintXMLTreeVisitor implements Visitor {
     }
 
     @Override
+    public Object visit(IterOp i) {
+        out.println("<IterOp>");
+        ArrayList<VarDeclOp> varDeclList = i.getVarDeclList();
+        for(VarDeclOp v : varDeclList){
+            v.accept(this);
+        }
+        ArrayList<? extends FunctionOrProcedure> paramOps = i.getFunProcList();
+        for(FunctionOrProcedure n : paramOps){
+            n.accept(this);
+        }
+        out.println("</IterOp>");
+        return null;
+    }
+
+    @Override
     public Object visit(IOArg i) {
         out.println("<IOArg>");
+        if(i.isDollarSign()){
+            out.println("<DollarSign>");
+            out.println("</DollarSign>");
+        }
         i.getExpression().accept(this);
-        out.println("<DollarSign>");
-        boolean dollarSign = i.isDollarSign();
-        out.println(dollarSign);
-        out.println("</DollarSign>");
         out.println("</IOArg>");
         return null;
     }
