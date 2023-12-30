@@ -351,10 +351,6 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(ProcFunParamOp p) {
         out.println("<ProcFunParamOp>");
         p.getIdentifier().accept(this);
-        out.println("<Qualifier>");
-        Qualifier qualifier = p.getQualifier();
-        out.println(qualifier);
-        out.println("/Qualifier");
         Type type = p.getType();
         out.println("Type");
         out.println(type);
@@ -454,10 +450,9 @@ public class PrintXMLTreeVisitor implements Visitor {
     @Override
     public Object visit(VarDeclOp v) {
         out.println("<VarDeclOp>");
-        ArrayList<IdentifierExpression> identifierExpressions = v.getIdentifierExpressionList();
-        for(IdentifierExpression i : identifierExpressions ){
-            i.getIdentifier().accept(this);
-            i.getExp().accept(this);
+        ArrayList<Expression> Expressions = v.getExpressionList();
+        for(Expression i : Expressions ){
+            i.accept(this);
         }
         Type type = v.getType();
         out.println("Type");
@@ -489,6 +484,46 @@ public class PrintXMLTreeVisitor implements Visitor {
             e.accept(this);
         }
         out.println("/WriteStatement");
+        return null;
+    }
+
+    @Override
+    public Object visit(ElseOp e) {
+        out.println("<ElseOp>");
+        e.getBody().accept(this);
+        out.println("/ElseOp");
+        return null;
+    }
+
+    @Override
+    public Object visit(IOArg i) {
+        out.println("<IOArg>");
+        i.getExpression().accept(this);
+        out.println("<DollarSign>");
+        boolean dollarSign = i.isDollarSign();
+        out.println(dollarSign);
+        out.println("/DollarSign");
+        out.println("</IOArg>");
+        return null;
+    }
+
+    public Object visit(ProcedureExpression p) {
+        out.println("ProcedureExpression");
+        p.getIdentifier().accept(this);
+        p.getExpression().accept(this);
+        out.println("/ProcedureExpression");
+        return null;
+    }
+
+    @Override
+    public Object visit(ProcCallOp p) {
+        out.println("<ProcCallOp>");
+        ArrayList<ProcedureExpression> Expressions = p.getProcedureExpressions();
+        for(ProcedureExpression i : Expressions ){
+            i.accept(this);
+        }
+        p.getIdentifier().accept(this);
+        out.println("/ProcCallOp");
         return null;
     }
 }
