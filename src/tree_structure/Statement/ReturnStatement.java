@@ -10,6 +10,10 @@ import java.util.Objects;
 public class ReturnStatement extends Node implements Statement {
     private ArrayList<Expression> expressions;
 
+    public ReturnStatement(ArrayList<Expression> expressions) {
+        this.expressions = expressions;
+    }
+
     @Override
     public String toString() {
         return "ReturnStatement{" +

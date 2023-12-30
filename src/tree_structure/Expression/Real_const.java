@@ -4,7 +4,7 @@ import tree_structure.Node;
 import tree_structure.Visitor;
 
 public class Real_const extends Node implements Expression {
-    private int value;
+    private double value;
 
     @Override
     public String toString() {
@@ -21,15 +21,15 @@ public class Real_const extends Node implements Expression {
     }
 
 
-    public Real_const(int value) {
+    public Real_const(double value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public double getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(double value) {
         this.value = value;
     }
 
