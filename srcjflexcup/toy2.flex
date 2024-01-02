@@ -58,6 +58,7 @@ RealNumber = {IntegerNumber}"."[0-9]+
 <YYINITIAL> "endif"              { return new Symbol(sym.ENDIF); }
 <YYINITIAL> "elseif"              { return new Symbol(sym.ELIF); }
 <YYINITIAL> "while"              { return new Symbol(sym.WHILE); }
+<YYINITIAL> "endwhile"              { return new Symbol(sym.ENDWHILE); }
 <YYINITIAL> "do"              { return new Symbol(sym.DO); }
 <YYINITIAL> ":"       { return new Symbol(sym.COLON); }
 <YYINITIAL> ";"       { return new Symbol(sym.SEMI); }
@@ -84,8 +85,8 @@ RealNumber = {IntegerNumber}"."[0-9]+
 <YYINITIAL> "@"              { return new Symbol(sym.REF); }
 
 <YYINITIAL>{
-    {RealNumber}               { return new Symbol(sym.REAL_CONST,yytext()); }
-    {IntegerNumber}            { return new Symbol(sym.INTEGER_CONST,yytext()); }
+    {RealNumber}               { return new Symbol(sym.REAL_CONST,new Double(yytext())); }
+    {IntegerNumber}            { return new Symbol(sym.INTEGER_CONST,new Integer(yytext())); }
     {StringLiteral}            {
                                     String str =  yytext().substring(1,yylength()-1);
                                     return new Symbol(sym.STRING_CONST,str);

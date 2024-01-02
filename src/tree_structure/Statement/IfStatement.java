@@ -10,9 +10,9 @@ public class IfStatement extends Node implements Statement {
     private Expression expression;
     private BodyOp body;
     private ArrayList<ElifOp> elifList;
-    private BodyOp elseBody;
+    private ElseOp elseBody;
 
-    public IfStatement(Expression expression, BodyOp body, ArrayList<ElifOp> elifList, BodyOp elseBody) {
+    public IfStatement(Expression expression, BodyOp body, ArrayList<ElifOp> elifList, ElseOp elseBody) {
         this.expression = expression;
         this.body = body;
         this.elifList = elifList;
@@ -61,11 +61,11 @@ public class IfStatement extends Node implements Statement {
         this.elifList = elifList;
     }
 
-    public BodyOp getElseBody() {
+    public ElseOp getElseBody() {
         return elseBody;
     }
 
-    public void setElseBody(BodyOp elseBody) {
+    public void setElseBody(ElseOp elseBody) {
         this.elseBody = elseBody;
     }
 

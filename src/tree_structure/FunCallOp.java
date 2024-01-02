@@ -5,7 +5,7 @@ import tree_structure.Expression.Expression;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class FunCallOp extends Node{
+public class FunCallOp extends Node implements Expression{
     private Identifier identifier;
     private ArrayList<Expression> expressions;
 

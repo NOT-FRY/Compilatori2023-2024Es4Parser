@@ -50,16 +50,16 @@ precedence left LPAR,RPAR;
 
   Program ::= Iter:listIter1 Procedure:mainProcedure Iter:listIter2
                                         {:
-                                            ArrayList<VarDeclOp> varDeclOpListIter1 = ((IterOp)listIter1).getVarDeclList();
+                                            ArrayList<VarDeclInterface> varDeclOpListIter1 = ((IterOp)listIter1).getVarDeclList();
                                             ArrayList<FunctionOrProcedure> functionOrProcedureListIter1 = ((IterOp)listIter1).getFunProcList();
 
                                             ProgramOp program = new ProgramOp(varDeclOpListIter1,functionOrProcedureListIter1);
                                             program.addFunctionOrProcedure((FunctionOrProcedure)mainProcedure);//abbiamo deciso di inserire la procedura nella lista, senza creare un nuovo campo
 
-                                            ArrayList<VarDeclOp> varDeclOpListIter2 = ((IterOp)listIter2).getVarDeclList();
+                                            ArrayList<VarDeclInterface> varDeclOpListIter2 = ((IterOp)listIter2).getVarDeclList();
                                             ArrayList<FunctionOrProcedure> functionOrProcedureListIter2 = ((IterOp)listIter2).getFunProcList();
-                                            for(VarDeclOp v : varDeclOpListIter2 ){
-                                                program.addVarDecl((VarDeclOp)v);
+                                            for(VarDeclInterface v : varDeclOpListIter2 ){
+                                                program.addVarDecl((VarDeclInterface)v);
                                             }
                                             for(FunctionOrProcedure f : functionOrProcedureListIter2){
                                                 program.addFunctionOrProcedure((FunctionOrProcedure)f);
@@ -67,7 +67,11 @@ precedence left LPAR,RPAR;
                                             RESULT = program;
                                         :};
 
-  Iter ::= VarDecl:varDecl Iter:iter {: ((IterOp)iter).addVarDecl((VarDeclOp)varDecl); RESULT = iter;:}
+  Iter ::= VarDecl:varDecls Iter:iter {:
+                                        for(VarDeclInterface v : (ArrayList<VarDeclInterface>) varDecls)
+                                            ((IterOp)iter).addVarDecl((VarDeclInterface)v);
+                                        RESULT = iter;
+                                      :}
         | Function:function Iter:iter {: ((IterOp)iter).addFunctionOrProcedure((FunctionOrProcedure)function); RESULT = iter;:}
         | Procedure:procedure Iter:iter {: ((IterOp)iter).addFunctionOrProcedure((FunctionOrProcedure)procedure); RESULT = iter;:}
         | /* empty */{: RESULT = new IterOp(); :};
@@ -77,24 +81,31 @@ precedence left LPAR,RPAR;
   Decls ::= Ids:idList COLON Type:type SEMI Decls:declsList
                                       {:
                                         VarDeclOp decl = new VarDeclOp((ArrayList<Expression>)idList,(Type)type);
-                                       ((ArrayList<VarDeclOp>)declsList).add((VarDeclOp)decl);
+                                       ((ArrayList<VarDeclInterface>)declsList).add((VarDeclOp)decl);
                                         RESULT = declsList;
                                       :}
   	| Ids:idList ASSIGN Consts:constList SEMI Decls:declsList
   	                                                   {:
-                                                            AssignStatement assignStatement = new AssignStatement((ArrayList<Identifier>)idList,(ArrayList<Expression>)constList);
+                                                            /*AssignStatement assignStatement = new AssignStatement((ArrayList<Identifier>)idList,(ArrayList<Expression>)constList);
                                                             for(Expression e : (ArrayList<Expression>)declsList){
-                                                                assignStatement.addExpression(e);
+                                                                assignStatement.addExpression((Expression)e);
                                                             }
-                                                            RESULT = assignStatement;
+                                                            RESULT = assignStatement;*/
+                                                            AssignStatement assignStatement = new AssignStatement((ArrayList<Identifier>)idList,(ArrayList<Expression>)constList);
+                                                            ((ArrayList<VarDeclInterface>)declsList).add((VarDeclInterface)assignStatement);
+                                                            RESULT = declsList;
                                                         :}
   	| Ids:idList COLON Type:type SEMI ENDVAR
   	                                {:
-                                        RESULT = new VarDeclOp((ArrayList<Expression>)idList,(Type)type);
+  	                                    ArrayList<VarDeclInterface> decls = new ArrayList<VarDeclInterface>();
+                                        decls.add(new VarDeclOp((ArrayList<Expression>)idList,(Type)type));
+                                        RESULT = decls;
   	                                :}
   	| Ids:idList ASSIGN Consts:constList SEMI ENDVAR
                                 {:
-                                    RESULT = new AssignStatement((ArrayList<Identifier>)idList,(ArrayList<Expression>)constList);
+                                    ArrayList<VarDeclInterface> decls = new ArrayList<VarDeclInterface>();
+                                    decls.add(new AssignStatement((ArrayList<Identifier>)idList,(ArrayList<Expression>)constList));
+                                    RESULT = decls;
                                 :}
   	;
 
@@ -173,12 +184,14 @@ precedence left LPAR,RPAR;
   ProcParamId ::= ID:id {: RESULT = new Identifier(id);:}
   	    | OUT ID:id {:RESULT = new Identifier(id,Qualifier.OUT); :};
 
-  Body ::= VarDecl:vardecl Body:body {:
-                                       ((BodyOp)body).addVarDecl((VarDeclOp)vardecl);
+  Body ::= VarDecl:vardecls Body:body {:
+                                        for(VarDeclInterface v : (ArrayList<VarDeclInterface>)vardecls ){
+                                            ((BodyOp)body).addVarDecl((VarDeclInterface)v);
+                                        }
                                       RESULT = body;
                                       :}
   	| Stat:statement Body:body {:
-                                 ((BodyOp)body).addStatement((Statement)statement);
+                                ((BodyOp)body).addStatement((Statement)statement);
   	                             RESULT = body;
   	                            :}
   	| /* empty */{:RESULT = new BodyOp(); :};
@@ -199,7 +212,7 @@ precedence left LPAR,RPAR;
            | ID:id LPAR RPAR {: RESULT = new ProcCallOp(new Identifier(id));:};             /* chiamata con nessun parametro */
 
   IfStat ::= IF Expr:expr THEN Body:body Elifs:elifs Else:elseBody ENDIF
-    {: RESULT = new IfStatement((Expression)expr,(BodyOp) body,(ArrayList<ElifOp>)elifs,(BodyOp)elseBody);  :}
+    {: RESULT = new IfStatement((Expression)expr,(BodyOp) body,(ArrayList<ElifOp>)elifs,(ElseOp)elseBody);  :}
   ;
 
   Elifs ::= Elif:e Elifs:elifsList {:((ArrayList<ElifOp>)elifsList).add((ElifOp)e); RESULT = elifsList; :}

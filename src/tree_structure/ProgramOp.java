@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class ProgramOp extends Node{
-    private ArrayList<VarDeclOp> varDeclList;
+    private ArrayList<VarDeclInterface> varDeclList;
     private ArrayList<FunctionOrProcedure> funProcList;
 
     public ProgramOp() {
-        varDeclList = new ArrayList<VarDeclOp>();
+        varDeclList = new ArrayList<VarDeclInterface>();
         funProcList = new ArrayList<FunctionOrProcedure>();
     }
 
-    public ProgramOp(ArrayList<VarDeclOp> varDeclList, ArrayList<FunctionOrProcedure> funProcList) {
+    public ProgramOp(ArrayList<VarDeclInterface> varDeclList, ArrayList<FunctionOrProcedure> funProcList) {
         this.varDeclList = varDeclList;
         this.funProcList = funProcList;
     }
 
-    public void addVarDecl(VarDeclOp v){
+    public void addVarDecl(VarDeclInterface v){
         varDeclList.add(v);
     }
 
@@ -45,11 +45,11 @@ public class ProgramOp extends Node{
         return v.visit(this);
     }
 
-    public ArrayList<VarDeclOp> getVarDeclList() {
+    public ArrayList<VarDeclInterface> getVarDeclList() {
         return varDeclList;
     }
 
-    public void setVarDeclList(ArrayList<VarDeclOp> varDeclList) {
+    public void setVarDeclList(ArrayList<VarDeclInterface> varDeclList) {
         this.varDeclList = varDeclList;
     }
 

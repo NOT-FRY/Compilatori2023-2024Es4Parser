@@ -74,9 +74,12 @@ public class PrintXMLTreeVisitor implements Visitor {
     @Override
     public Object visit(BodyOp b) {
         out.println("<BodyOp>");
-        ArrayList<VarDeclOp> varDeclList = b.getVarDeclList();
-        for(VarDeclOp v : varDeclList){
-            v.accept(this);
+        ArrayList<VarDeclInterface> varDeclList = b.getVarDeclList();
+        for(VarDeclInterface v : varDeclList){
+            if(v instanceof VarDeclOp)
+                visit((VarDeclOp) v);
+            else if(v instanceof  AssignStatement)
+                visit((AssignStatement) v);
         }
         ArrayList<Statement> statements = b.getStatementList();
         for(Statement s : statements){
@@ -381,9 +384,12 @@ public class PrintXMLTreeVisitor implements Visitor {
     @Override
     public Object visit(ProgramOp p) {
         out.println("<ProgramOp>");
-        ArrayList<VarDeclOp> varDeclList = p.getVarDeclList();
-        for(VarDeclOp v : varDeclList){
-            v.accept(this);
+        ArrayList<VarDeclInterface> varDeclList = p.getVarDeclList();
+        for(VarDeclInterface v : varDeclList){
+            if(v instanceof VarDeclOp)
+                visit((VarDeclOp) v);
+            else if(v instanceof  AssignStatement)
+                visit((AssignStatement) v);
         }
         ArrayList<? extends FunctionOrProcedure> paramOps = p.getFunProcList();
         for(FunctionOrProcedure n : paramOps){
@@ -504,9 +510,12 @@ public class PrintXMLTreeVisitor implements Visitor {
     @Override
     public Object visit(IterOp i) {
         out.println("<IterOp>");
-        ArrayList<VarDeclOp> varDeclList = i.getVarDeclList();
-        for(VarDeclOp v : varDeclList){
-            v.accept(this);
+        ArrayList<VarDeclInterface> varDeclList = i.getVarDeclList();
+        for(VarDeclInterface v : varDeclList){
+            if(v instanceof VarDeclOp)
+                visit((VarDeclOp) v);
+            else if(v instanceof  AssignStatement)
+                visit((AssignStatement) v);
         }
         ArrayList<? extends FunctionOrProcedure> paramOps = i.getFunProcList();
         for(FunctionOrProcedure n : paramOps){

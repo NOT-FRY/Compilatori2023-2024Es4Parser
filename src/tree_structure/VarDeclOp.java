@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class VarDeclOp extends Node implements Expression {
+public class VarDeclOp extends Node implements Expression,VarDeclInterface {
 
 
     private ArrayList<Expression> expressionList;
