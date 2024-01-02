@@ -5,7 +5,17 @@ import java_cup.runtime.Symbol;
 
 %unicode
 %line
+%column
 %cup
+
+%{
+        private Symbol symbol(int type) {
+            return new Symbol(type, yyline, yycolumn);
+        }
+        private Symbol symbol(int type, Object value) {
+            return new Symbol(type, yyline, yycolumn, value);
+        }
+%}
 
 /*Whitespaces*/
 LineTerminator = \r|\n|\r\n
@@ -32,71 +42,78 @@ RealNumber = {IntegerNumber}"."[0-9]+
 <YYINITIAL> {WhiteSpace}      { /*ignora*/ }
 
 //KEYWORDS e delimitatori
-<YYINITIAL> "var"              { return new Symbol(sym.VAR); }
-<YYINITIAL> "true"              { return new Symbol(sym.TRUE); }
-<YYINITIAL> "false"              { return new Symbol(sym.FALSE); }
-<YYINITIAL> "real"              { return new Symbol(sym.REAL); }
-<YYINITIAL> "integer"              { return new Symbol(sym.INTEGER); }
-<YYINITIAL> "string"              { return new Symbol(sym.STRING); }
-<YYINITIAL> "boolean"              { return new Symbol(sym.BOOLEAN); }
-<YYINITIAL> "return"              { return new Symbol(sym.RETURN); }
-<YYINITIAL> "func"              { return new Symbol(sym.FUNCTION); }
-<YYINITIAL> "->"              { return new Symbol(sym.TYPERETURN); }
-<YYINITIAL> "endfunc"              { return new Symbol(sym.ENDFUNCTION); }
-<YYINITIAL> "("              { return new Symbol(sym.LPAR); }
-<YYINITIAL> ")"              { return new Symbol(sym.RPAR); }
-<YYINITIAL> "proc"              { return new Symbol(sym.PROCEDURE); }
-<YYINITIAL> "endproc"              { return new Symbol(sym.ENDPROCEDURE); }
-<YYINITIAL> "out"              { return new Symbol(sym.OUT); }
-<YYINITIAL> "-->"              { return new Symbol(sym.WRITE); }
-<YYINITIAL> "-->!"              { return new Symbol(sym.WRITERETURN); }
-<YYINITIAL> "$"              { return new Symbol(sym.DOLLARSIGN); }
-<YYINITIAL> "<--"              { return new Symbol(sym.READ); }
-<YYINITIAL> "if"              { return new Symbol(sym.IF); }
-<YYINITIAL> "then"              { return new Symbol(sym.THEN); }
-<YYINITIAL> "else"              { return new Symbol(sym.ELSE); }
-<YYINITIAL> "endif"              { return new Symbol(sym.ENDIF); }
-<YYINITIAL> "elseif"              { return new Symbol(sym.ELIF); }
-<YYINITIAL> "while"              { return new Symbol(sym.WHILE); }
-<YYINITIAL> "endwhile"              { return new Symbol(sym.ENDWHILE); }
-<YYINITIAL> "do"              { return new Symbol(sym.DO); }
-<YYINITIAL> ":"       { return new Symbol(sym.COLON); }
-<YYINITIAL> ";"       { return new Symbol(sym.SEMI); }
-<YYINITIAL> ","       { return new Symbol(sym.COMMA); }
-<YYINITIAL> "^="       { return new Symbol(sym.ASSIGN); }
-<YYINITIAL> "\\"       { return new Symbol(sym.ENDVAR); }
+<YYINITIAL> "var"              { return symbol(sym.VAR); }
+<YYINITIAL> "true"              { return symbol(sym.TRUE); }
+<YYINITIAL> "false"              { return symbol(sym.FALSE); }
+<YYINITIAL> "real"              { return symbol(sym.REAL); }
+<YYINITIAL> "integer"              { return symbol(sym.INTEGER); }
+<YYINITIAL> "string"              { return symbol(sym.STRING); }
+<YYINITIAL> "boolean"              { return symbol(sym.BOOLEAN); }
+<YYINITIAL> "return"              { return symbol(sym.RETURN); }
+<YYINITIAL> "func"              { return symbol(sym.FUNCTION); }
+<YYINITIAL> "->"              { return symbol(sym.TYPERETURN); }
+<YYINITIAL> "endfunc"              { return symbol(sym.ENDFUNCTION); }
+<YYINITIAL> "("              { return symbol(sym.LPAR); }
+<YYINITIAL> ")"              { return symbol(sym.RPAR); }
+<YYINITIAL> "proc"              { return symbol(sym.PROCEDURE); }
+<YYINITIAL> "endproc"              { return symbol(sym.ENDPROCEDURE); }
+<YYINITIAL> "out"              { return symbol(sym.OUT); }
+<YYINITIAL> "-->"              { return symbol(sym.WRITE); }
+<YYINITIAL> "-->!"              { return symbol(sym.WRITERETURN); }
+<YYINITIAL> "$"              { return symbol(sym.DOLLARSIGN); }
+<YYINITIAL> "<--"              { return symbol(sym.READ); }
+<YYINITIAL> "if"              { return symbol(sym.IF); }
+<YYINITIAL> "then"              { return symbol(sym.THEN); }
+<YYINITIAL> "else"              { return symbol(sym.ELSE); }
+<YYINITIAL> "endif"              { return symbol(sym.ENDIF); }
+<YYINITIAL> "elseif"              { return symbol(sym.ELIF); }
+<YYINITIAL> "while"              { return symbol(sym.WHILE); }
+<YYINITIAL> "endwhile"              { return symbol(sym.ENDWHILE); }
+<YYINITIAL> "do"              { return symbol(sym.DO); }
+<YYINITIAL> ":"       { return symbol(sym.COLON); }
+<YYINITIAL> ";"       { return symbol(sym.SEMI); }
+<YYINITIAL> ","       { return symbol(sym.COMMA); }
+<YYINITIAL> "^="       { return symbol(sym.ASSIGN); }
+<YYINITIAL> "\\"       { return symbol(sym.ENDVAR); }
 
 
 /*Operatori*/
-<YYINITIAL> "+"              { return new Symbol(sym.PLUS); }
-<YYINITIAL> "-"              { return new Symbol(sym.MINUS); }
-<YYINITIAL> "*"              { return new Symbol(sym.TIMES); }
-<YYINITIAL> "/"              { return new Symbol(sym.DIV); }
-<YYINITIAL> "="              { return new Symbol(sym.EQ); }
-<YYINITIAL> "<>"              { return new Symbol(sym.NE); }
-<YYINITIAL> "<"              { return new Symbol(sym.LT); }
-<YYINITIAL> "<="              { return new Symbol(sym.LE); }
-<YYINITIAL> ">"              { return new Symbol(sym.GT); }
-<YYINITIAL> ">="              { return new Symbol(sym.GE); }
-<YYINITIAL> "&&"              { return new Symbol(sym.AND); }
-<YYINITIAL> "||"              { return new Symbol(sym.OR); }
-<YYINITIAL> "!"              { return new Symbol(sym.NOT); }
+<YYINITIAL> "+"              { return symbol(sym.PLUS); }
+<YYINITIAL> "-"              { return symbol(sym.MINUS); }
+<YYINITIAL> "*"              { return symbol(sym.TIMES); }
+<YYINITIAL> "/"              { return symbol(sym.DIV); }
+<YYINITIAL> "="              { return symbol(sym.EQ); }
+<YYINITIAL> "<>"              { return symbol(sym.NE); }
+<YYINITIAL> "<"              { return symbol(sym.LT); }
+<YYINITIAL> "<="              { return symbol(sym.LE); }
+<YYINITIAL> ">"              { return symbol(sym.GT); }
+<YYINITIAL> ">="              { return symbol(sym.GE); }
+<YYINITIAL> "&&"              { return symbol(sym.AND); }
+<YYINITIAL> "||"              { return symbol(sym.OR); }
+<YYINITIAL> "!"              { return symbol(sym.NOT); }
 
-<YYINITIAL> "@"              { return new Symbol(sym.REF); }
+<YYINITIAL> "@"              { return symbol(sym.REF); }
 
 <YYINITIAL>{
-    {RealNumber}               { return new Symbol(sym.REAL_CONST,new Double(yytext())); }
-    {IntegerNumber}            { return new Symbol(sym.INTEGER_CONST,new Integer(yytext())); }
+    {RealNumber}               { return symbol(sym.REAL_CONST,new Double(yytext())); }
+    {IntegerNumber}            { return symbol(sym.INTEGER_CONST,new Integer(yytext())); }
     {StringLiteral}            {
                                     String str =  yytext().substring(1,yylength()-1);
-                                    return new Symbol(sym.STRING_CONST,str);
+                                    return symbol(sym.STRING_CONST,str);
                                 }
 }
 <YYINITIAL>{
-    {Identificatore}            { return new Symbol(sym.ID,yytext()); }
+    {Identificatore}            { return symbol(sym.ID,yytext()); }
+}
+
+//EOF
+<YYINITIAL>{
+    <<EOF>>   { return symbol(sym.EOF); }
 }
 
 /* error fallback */
 
 [^]                {throw new Error("- Carattere non consentito < "+
                     yytext()+" > a riga "+(yyline+1)+"\n" );}
+
+

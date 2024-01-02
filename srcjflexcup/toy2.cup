@@ -15,10 +15,9 @@ terminal Integer INTEGER_CONST;
 terminal Boolean TRUE, FALSE;
 
 /*non terminali*/
-non terminal Program, Iter, Procedure, VarDecl, Function, Decls, Ids, Type,Const, Consts, FuncParams, Types, Body,
+non terminal Program, Iter1,Iter2, Procedure, VarDecl, Function, Decls, Ids, Type,Const, Consts, FuncParams, Types, Body,
     OtherFuncParams, ProcParams,OtherProcParams, ProcParamId, Stat, ProcCall,FunCall, IOArgs, IfStat, WhileStat, Exprs,
     Elif, ProcExprs, Elifs, Expr, Else;
-
 
 
 /*PRECEDENZE*/
@@ -46,9 +45,10 @@ precedence right REF;
 
 precedence left LPAR,RPAR;
 
+start with Program;
 
 
-  Program ::= Iter:listIter1 Procedure:mainProcedure Iter:listIter2
+  Program ::= Iter1:listIter1 Procedure:mainProcedure Iter2:listIter2
                                         {:
                                             ArrayList<VarDeclInterface> varDeclOpListIter1 = ((IterOp)listIter1).getVarDeclList();
                                             ArrayList<FunctionOrProcedure> functionOrProcedureListIter1 = ((IterOp)listIter1).getFunProcList();
@@ -67,13 +67,23 @@ precedence left LPAR,RPAR;
                                             RESULT = program;
                                         :};
 
-  Iter ::= VarDecl:varDecls Iter:iter {:
+  Iter1 ::= VarDecl:varDecls Iter1:iter {:
                                         for(VarDeclInterface v : (ArrayList<VarDeclInterface>) varDecls)
                                             ((IterOp)iter).addVarDecl((VarDeclInterface)v);
                                         RESULT = iter;
                                       :}
-        | Function:function Iter:iter {: ((IterOp)iter).addFunctionOrProcedure((FunctionOrProcedure)function); RESULT = iter;:}
-        | Procedure:procedure Iter:iter {: ((IterOp)iter).addFunctionOrProcedure((FunctionOrProcedure)procedure); RESULT = iter;:}
+        | Function:function Iter1:iter {: ((IterOp)iter).addFunctionOrProcedure((FunctionOrProcedure)function); RESULT = iter;:}
+        | /* empty */{: RESULT = new IterOp(); :};
+
+
+
+  Iter2 ::= VarDecl:varDecls Iter2:iter {:
+                                        for(VarDeclInterface v : (ArrayList<VarDeclInterface>) varDecls)
+                                            ((IterOp)iter).addVarDecl((VarDeclInterface)v);
+                                        RESULT = iter;
+                                      :}
+        | Function:function Iter2:iter {: ((IterOp)iter).addFunctionOrProcedure((FunctionOrProcedure)function); RESULT = iter;:}
+        | Procedure:procedure Iter2:iter {: ((IterOp)iter).addFunctionOrProcedure((FunctionOrProcedure)procedure); RESULT = iter;:}
         | /* empty */{: RESULT = new IterOp(); :};
 
   VarDecl ::= VAR Decls:decls{:RESULT = decls;:};
@@ -226,17 +236,25 @@ precedence left LPAR,RPAR;
 
   WhileStat ::= WHILE Expr:expr DO Body:body ENDWHILE{:RESULT = new WhileStatement((Expression)expr,(BodyOp)body); :};
 
-  IOArgs ::= Expr:expression IOArgs:IOArgsList {:
-                                                IOArg arg = new IOArg((Expression)expression,false);
-                                                ((ArrayList<IOArg>)IOArgsList).add(arg);
-                                                RESULT = IOArgsList;
-                                                :}    /* qui l'Expr corretta è concatenazione di stringhe o singola stringa*/
-         |  DOLLARSIGN LPAR Expr:expression RPAR IOArgs:IOArgsList {:
+  IOArgs ::= Expr:expression {:
+                               IOArg arg = new IOArg((Expression)expression,false);
+                               ArrayList<IOArg> argsList = new ArrayList<IOArg>();
+                               argsList.add(arg);
+                               RESULT = argsList;
+                               :} //ammette una sola stringa oppure una concatenazione
+            |Expr:expression1 DOLLARSIGN LPAR Expr:expression2 RPAR IOArgs:IOArgsList{:
+                                                                                    IOArg arg1 = new IOArg((Expression)expression1,false);
+                                                                                    ((ArrayList<IOArg>)IOArgsList).add(arg1);
+                                                                                    IOArg arg2 = new IOArg((Expression)expression2,true);
+                                                                                    ((ArrayList<IOArg>)IOArgsList).add(arg2);
+                                                                                    RESULT = IOArgsList;
+                                                                                    :}//ammette una stringa (o concatenazione), un passaggio di parametri ed eventuali altri passaggi e/o stringhe
+            |DOLLARSIGN LPAR Expr:expression RPAR IOArgs:IOArgsList{:
                                                                     IOArg arg = new IOArg((Expression)expression,true);
                                                                     ((ArrayList<IOArg>)IOArgsList).add(arg);
                                                                     RESULT = IOArgsList;
-                                                                    :}
-         | /* empty */{: RESULT = new ArrayList<IOArg>(); :};
+                                                                :}//ammette un passaggio di parametri ed eventuali altri passaggi e/o stringhe
+            | /* empty */{: RESULT = new ArrayList<IOArg>(); :};//serve per terminare le ricorsioni
 
   ProcExprs::= Expr:expression COMMA ProcExprs:procedureExpressions {:
                                                                         ProcedureExpression pe = new ProcedureExpression((Expression)expression,false,null);
