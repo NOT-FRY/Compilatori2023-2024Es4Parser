@@ -10,8 +10,9 @@ public interface sym {
   /* terminals */
   public static final int FUNCTION = 12;
   public static final int GE = 41;
+  public static final int UMINUS = 47;
   public static final int ENDVAR = 45;
-  public static final int INTEGER_CONST = 50;
+  public static final int INTEGER_CONST = 51;
   public static final int INTEGER = 8;
   public static final int SEMI = 5;
   public static final int OUT = 19;
@@ -32,13 +33,13 @@ public interface sym {
   public static final int PLUS = 32;
   public static final int ASSIGN = 4;
   public static final int IF = 24;
-  public static final int ID = 47;
+  public static final int ID = 48;
   public static final int ENDWHILE = 31;
   public static final int LE = 39;
   public static final int EOF = 0;
   public static final int BOOLEAN = 10;
   public static final int RETURN = 11;
-  public static final int TRUE = 51;
+  public static final int TRUE = 52;
   public static final int error = 1;
   public static final int EQ = 36;
   public static final int DOLLARSIGN = 22;
@@ -49,13 +50,13 @@ public interface sym {
   public static final int ELSE = 26;
   public static final int READ = 23;
   public static final int WHILE = 29;
-  public static final int REAL_CONST = 49;
+  public static final int REAL_CONST = 50;
   public static final int THEN = 25;
   public static final int NE = 37;
   public static final int LPAR = 15;
   public static final int STRING = 9;
-  public static final int FALSE = 52;
-  public static final int STRING_CONST = 48;
+  public static final int FALSE = 53;
+  public static final int STRING_CONST = 49;
   public static final int GT = 40;
   public static final int VAR = 2;
   public static final int ELIF = 28;
@@ -109,6 +110,7 @@ public interface sym {
   "NOT",
   "ENDVAR",
   "REF",
+  "UMINUS",
   "ID",
   "STRING_CONST",
   "REAL_CONST",
