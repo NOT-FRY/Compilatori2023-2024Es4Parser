@@ -25,14 +25,14 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(AddOp a) {
         out.println("<AddOp>");
         out.println("<leftVal>");
-        int leftVal =
-                (Integer) a.getLeft().accept(this);
-        out.println(leftVal);
+
+        a.getLeft().accept(this);
+
         out.println("</leftVal>");
         out.println("<rightVal>");
-        int rightVal =
-                (Integer) a.getRight().accept(this);
-        out.println(rightVal);
+
+         a.getRight().accept(this);
+
         out.println("</rightVal>");
         out.println("</AddOp>");
         return null;
@@ -42,14 +42,13 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(AndOp a) {
         out.println("<AndOp>");
         out.println("<leftVal>");
-        boolean leftVal =
-                (Boolean) a.getLeft().accept(this);
-        out.println(leftVal);
+
+        a.getLeft().accept(this);
+
         out.println("</leftVal>");
         out.println("<rightVal>");
-        boolean rightVal =
-                (Boolean) a.getRight().accept(this);
-        out.println(rightVal);
+
+        a.getRight().accept(this);
         out.println("</rightVal>");
         out.println("</AndOp>");
 
@@ -93,14 +92,14 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(DiffOp d) {
         out.println("<DiffOp>");
         out.println("<leftVal>");
-        int leftVal =
-                (Integer) d.getLeft().accept(this);
-        out.println(leftVal);
+
+        d.getLeft().accept(this);
+
         out.println("</leftVal>");
         out.println("<rightVal>");
-        int rightVal =
-                (Integer) d.getRight().accept(this);
-        out.println(rightVal);
+
+        d.getRight().accept(this);
+
         out.println("</rightVal>");
         out.println("</DiffOp>");
 
@@ -111,14 +110,14 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(DivOp d) {
         out.println("<DivOp>");
         out.println("<leftVal>");
-        int leftVal =
-                (Integer) d.getLeft().accept(this);
-        out.println(leftVal);
+
+        d.getLeft().accept(this);
+
         out.println("</leftVal>");
         out.println("<rightVal>");
-        int rightVal =
-                (Integer) d.getRight().accept(this);
-        out.println(rightVal);
+
+        d.getRight().accept(this);
+
         out.println("</rightVal>");
         out.println("</DivOp>");
         return null;
@@ -137,14 +136,14 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(EQOp e) {
         out.println("<EQOp>");
         out.println("<leftVal>");
-        Expression leftVal =
-                (Expression) e.getLeft().accept(this);
-        out.println(leftVal);
+
+        e.getLeft().accept(this);
+
         out.println("</leftVal>");
         out.println("<rightVal>");
-        Expression rightVal =
-                (Expression) e.getRight().accept(this);
-        out.println(rightVal);
+
+        e.getRight().accept(this);
+
         out.println("</rightVal>");
         out.println("</EQOp>");
 
@@ -194,14 +193,14 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(GEOp g) {
         out.println("<GEOp>");
         out.println("<leftVal>");
-        int leftVal =
-                (Integer) g.getLeft().accept(this);
-        out.println(leftVal);
+
+        g.getLeft().accept(this);
+
         out.println("</leftVal>");
         out.println("<rightVal>");
-        int rightVal =
-                (Integer) g.getRight().accept(this);
-        out.println(rightVal);
+
+        g.getRight().accept(this);
+
         out.println("</rightVal>");
         out.println("</GEOp>");
 
@@ -212,17 +211,32 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(GTOp g) {
         out.println("<GTOp>");
         out.println("<leftVal>");
-        int leftVal =
-                (Integer) g.getLeft().accept(this);
-        out.println(leftVal);
+
+        g.getLeft().accept(this);
+
         out.println("</leftVal>");
         out.println("<rightVal>");
-        int rightVal =
-                (Integer) g.getRight().accept(this);
-        out.println(rightVal);
+
+        g.getRight().accept(this);
+
         out.println("</rightVal>");
         out.println("</GTOp>");
 
+        return null;
+    }
+
+    @Override
+    public Object visit(Identifier i) {
+        Qualifier q = i.getQualifier();
+        String qualifierString ="";
+        if(q!=null){
+            qualifierString += " qualifier='";
+            qualifierString += q.toString();
+            qualifierString +="'";
+        }
+        out.println("<Identifier" + qualifierString + ">");
+        out.println(i.getName());
+        out.println("</Identifier>");
         return null;
     }
 
@@ -243,9 +257,9 @@ public class PrintXMLTreeVisitor implements Visitor {
 
     @Override
     public Object visit(Integer_const i) {
-        out.println("<integer_const>");
+        out.println("<Integer_const>");
         out.println(i.getValue());
-        out.println("</integer_const>");
+        out.println("</Integer_const>");
         return null;
     }
 
@@ -253,14 +267,14 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(LEOp l) {
         out.println("<LEOp>");
         out.println("<leftVal>");
-        int leftVal =
-                (Integer) l.getLeft().accept(this);
-        out.println(leftVal);
+
+        l.getLeft().accept(this);
+
         out.println("</leftVal>");
         out.println("<rightVal>");
-        int rightVal =
-                (Integer) l.getRight().accept(this);
-        out.println(rightVal);
+
+        l.getRight().accept(this);
+
         out.println("</rightVal>");
         out.println("</LEOp>");
 
@@ -271,14 +285,14 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(LTOp l) {
         out.println("<LTOp>");
         out.println("<leftVal>");
-        int leftVal =
-                (Integer) l.getLeft().accept(this);
-        out.println(leftVal);
+
+        l.getLeft().accept(this);
+
         out.println("</leftVal>");
         out.println("<rightVal>");
-        int rightVal =
-                (Integer) l.getRight().accept(this);
-        out.println(rightVal);
+
+        l.getRight().accept(this);
+
         out.println("</rightVal>");
         out.println("</LTOp>");
 
@@ -289,14 +303,14 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(MulOp m) {
         out.println("<MulOp>");
         out.println("<leftVal>");
-        int leftVal =
-                (Integer) m.getLeft().accept(this);
-        out.println(leftVal);
+
+        m.getLeft().accept(this);
+
         out.println("</leftVal>");
         out.println("<rightVal>");
-        int rightVal =
-                (Integer) m.getRight().accept(this);
-        out.println(rightVal);
+
+        m.getRight().accept(this);
+
         out.println("</rightVal>");
         out.println("</MulOp>");
         return null;
@@ -306,14 +320,14 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(NEOp n) {
         out.println("<NEOp>");
         out.println("<leftVal>");
-        Expression leftVal =
-                (Expression) n.getLeft().accept(this);
-        out.println(leftVal);
+
+        n.getLeft().accept(this);
+
         out.println("</leftVal>");
         out.println("<rightVal>");
-        Expression rightVal =
-                (Expression) n.getRight().accept(this);
-        out.println(rightVal);
+
+        n.getRight().accept(this);
+
         out.println("</rightVal>");
         out.println("</NEOp>");
 
@@ -324,9 +338,9 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(NotOp n) {
         out.println("<NotOp>");
         out.println("<value>");
-        boolean value =
-                (Boolean) n.getValue().accept(this);
-        out.println(value);
+
+        n.getValue().accept(this);
+
         out.println("</value>");
         out.println("</NotOp>");
         return null;
@@ -336,14 +350,14 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(OrOp o) {
         out.println("<OrOp>");
         out.println("<leftVal>");
-        boolean leftVal =
-                (Boolean) o.getLeft().accept(this);
-        out.println(leftVal);
+
+        o.getLeft().accept(this);
+
         out.println("</leftVal>");
         out.println("<rightVal>");
-        boolean rightVal =
-                (Boolean) o.getRight().accept(this);
-        out.println(rightVal);
+
+        o.getRight().accept(this);
+
         out.println("</rightVal>");
         out.println("</OrOp>");
 
@@ -353,17 +367,11 @@ public class PrintXMLTreeVisitor implements Visitor {
     @Override
     public Object visit(ProcFunParamOp p) {
         out.println("<ProcFunParamOp>");
-        Qualifier q = p.getIdentifier().getQualifier();
-        if(q!=null){
-            out.println("<Qualifier>");
-            out.println(q);
-            out.println("</Qualifier>");
-        }
         p.getIdentifier().accept(this);
         Type type = p.getType();
         out.println("<Type>");
         out.println(type);
-        out.println("</Types>");
+        out.println("</Type>");
         out.println("</ProcFunParamOp>");
         return null;
     }
@@ -412,9 +420,9 @@ public class PrintXMLTreeVisitor implements Visitor {
 
     @Override
     public Object visit(Real_const r) {
-        out.println("<real_const>");
+        out.println("<Real_const>");
         out.println(r.getValue());
-        out.println("</real_const>");
+        out.println("</Real_const>");
         return null;
     }
 
@@ -433,17 +441,17 @@ public class PrintXMLTreeVisitor implements Visitor {
 
     @Override
     public Object visit(String_const s) {
-        out.println("<string_const>");
+        out.println("<String_const>");
         out.println(s.getValue());
-        out.println("</string_const>");
+        out.println("</String_const>");
         return null;
     }
 
     @Override
     public Object visit(True_const t) {
-        out.println("<true_const>");
+        out.println("<True_const>");
         out.println(t.getValue());
-        out.println("</true_const>");
+        out.println("</True_const>");
         return null;
     }
 
@@ -451,9 +459,9 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(UminusOp u) {
         out.println("<UminusOp>");
         out.println("<Value>");
-        Expression value =
-                (Expression) u.getValue().accept(this);
-        out.println(value);
+
+        u.getValue().accept(this);
+
         out.println("</Value>");
         out.println("</UminusOp>");
         return null;
@@ -488,9 +496,9 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(WriteStatement w) {
         out.println("<WriteStatement>");
         WritingType writingType = w.getWritingType();
-        out.println("<writingType>");
+        out.println("<WritingType>");
         out.println(writingType);
-        out.println("</writingType>");
+        out.println("</WritingType>");
         ArrayList<Expression> expressions = w.getExpressions();
         for(Expression e : expressions) {
             e.accept(this);
@@ -538,9 +546,15 @@ public class PrintXMLTreeVisitor implements Visitor {
     }
 
     public Object visit(ProcedureExpression p) {
-        out.println("<ProcedureExpression>");
-        p.getIdentifier().accept(this);
-        p.getExpression().accept(this);
+
+        if(p.getIdentifier()!=null) {
+            out.println("<ProcedureExpression reference = '"+p.isReference() +"'>");
+            p.getIdentifier().accept(this);
+        }else{
+            out.println("<ProcedureExpression>");
+        }
+        if(p.getExpression()!=null)
+            p.getExpression().accept(this);
         out.println("</ProcedureExpression>");
         return null;
     }

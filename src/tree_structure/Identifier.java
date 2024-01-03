@@ -62,6 +62,6 @@ public class Identifier extends Node implements Expression {
 
     @Override
     public Object accept(Visitor v) {
-        return null;
+        return v.visit(this);
     }
 }

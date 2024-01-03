@@ -1,6 +1,8 @@
-package tree_structure;
+package tree_structure.Expression;
 
-import tree_structure.Expression.Expression;
+import tree_structure.Identifier;
+import tree_structure.Node;
+import tree_structure.Visitor;
 
 import java.util.ArrayList;
 import java.util.Objects;

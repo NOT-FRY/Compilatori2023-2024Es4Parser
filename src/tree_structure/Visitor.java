@@ -18,6 +18,7 @@ public interface Visitor {
     Object visit(FunctionOp f);
     Object visit(GEOp g);
     Object visit(GTOp g);
+    Object visit(Identifier i);
     Object visit(IfStatement i);
     Object visit(Integer_const i);
     Object visit(LEOp l);

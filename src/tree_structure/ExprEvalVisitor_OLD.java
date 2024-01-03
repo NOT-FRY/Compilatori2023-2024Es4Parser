@@ -105,6 +105,11 @@ public class ExprEvalVisitor_OLD implements Visitor {
     }
 
     @Override
+    public Object visit(Identifier i) {
+        return null;
+    }
+
+    @Override
     public Object visit(IfStatement i) {
         return null;
     }

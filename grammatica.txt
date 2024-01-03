@@ -92,12 +92,12 @@ Exprs ::= Expr COMMA Exprs
 
 Expr ::= FunCall
 	| REAL_CONST
-        | INTEGER_CONST
+    | INTEGER_CONST
 	| STRING_CONST
 	| ID
-        | TRUE
-        | FALSE
-        | Expr  PLUS Expr
+    | TRUE
+    | FALSE
+    | Expr  PLUS Expr
 	| Expr  MINUS Expr
 	| Expr  TIMES Expr
 	| Expr  DIV Expr
