@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="test1" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="esercitazione4.test" />
+    <module name="DiLauro-Ciancio_es4" />
+    <option name="PROGRAM_PARAMETERS" value="test1" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="esercitazione4.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

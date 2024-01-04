@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="test2" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="esercitazione4.test" />
+    <module name="DiLauro-Ciancio_es4" />
+    <option name="PROGRAM_PARAMETERS" value="test2" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
