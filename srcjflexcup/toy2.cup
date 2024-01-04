@@ -91,18 +91,13 @@ start with Program;
   Decls ::= Ids:idList COLON Type:type SEMI Decls:declsList
                                       {:
                                         VarDeclOp decl = new VarDeclOp((ArrayList<Expression>)idList,(Type)type);
-                                       ((ArrayList<VarDeclInterface>)declsList).add((VarDeclOp)decl);
+                                       ((ArrayList<VarDeclInterface>)declsList).add(0,(VarDeclOp)decl);
                                         RESULT = declsList;
                                       :}
   	| Ids:idList ASSIGN Consts:constList SEMI Decls:declsList
   	                                                   {:
-                                                            /*AssignStatement assignStatement = new AssignStatement((ArrayList<Identifier>)idList,(ArrayList<Expression>)constList);
-                                                            for(Expression e : (ArrayList<Expression>)declsList){
-                                                                assignStatement.addExpression((Expression)e);
-                                                            }
-                                                            RESULT = assignStatement;*/
                                                             AssignStatement assignStatement = new AssignStatement((ArrayList<Identifier>)idList,(ArrayList<Expression>)constList);
-                                                            ((ArrayList<VarDeclInterface>)declsList).add((VarDeclInterface)assignStatement);
+                                                            ((ArrayList<VarDeclInterface>)declsList).add(0,(VarDeclInterface)assignStatement);
                                                             RESULT = declsList;
                                                         :}
   	| Ids:idList COLON Type:type SEMI ENDVAR
@@ -121,7 +116,7 @@ start with Program;
 
   Ids ::= ID:id COMMA Ids:idList
                             {:
-                            ((ArrayList<Identifier>)idList).add(new Identifier(id));
+                            ((ArrayList<Identifier>)idList).add(0,new Identifier(id));
                             RESULT = idList;
                             :}
           | ID:id
@@ -132,7 +127,7 @@ start with Program;
 //Consts è una lista di espressioni
   Consts ::= Const:c COMMA Consts:constsList
                             {:
-                            ((ArrayList<Expression>)constsList).add((Expression)c);
+                            ((ArrayList<Expression>)constsList).add(0,(Expression)c);
                             RESULT= constsList;
                             :}
   	| Const:c {: ArrayList<Expression> constsList = new ArrayList<Expression>();
@@ -155,19 +150,19 @@ start with Program;
 
   FuncParams ::= ID:id COLON Type:type OtherFuncParams:params {:
                                                                 ProcFunParamOp funParamOp = new ProcFunParamOp(new Identifier(id),(Type)type);
-                                                                ((ArrayList<ProcFunParamOp>)params).add(funParamOp);
+                                                                ((ArrayList<ProcFunParamOp>)params).add(0,funParamOp);
                                                                 RESULT = params;:}
   	    | /* empty */{:RESULT = new ArrayList<ProcFunParamOp>(); :};
 
   OtherFuncParams ::= COMMA ID:id COLON Type:type OtherFuncParams:otherParams
                                               {:
                                                 ProcFunParamOp funParamOp = new ProcFunParamOp(new Identifier(id),(Type)type);
-                                                ((ArrayList<ProcFunParamOp>)otherParams).add(funParamOp);
+                                                ((ArrayList<ProcFunParamOp>)otherParams).add(0,funParamOp);
                                                 RESULT = otherParams;
                                              :}
   	    | /* empty */{:RESULT = new ArrayList<ProcFunParamOp>(); :};
 
-  Types ::= Type:type COMMA Types:typeList {:((ArrayList<Type>)typeList).add((Type) type);:}
+  Types ::= Type:type COMMA Types:typeList {:((ArrayList<Type>)typeList).add(0,(Type) type);:}
   	| Type:type {: ArrayList<Type> typeList = new ArrayList<Type>();
   	        typeList.add((Type)type);
   	        RESULT = typeList;
@@ -179,14 +174,14 @@ start with Program;
 
   ProcParams::= ProcParamId:id COLON Type:type OtherProcParams:params
                                       {:ProcFunParamOp procParam = new ProcFunParamOp((Identifier)id,(Type)type);
-                                        ((ArrayList<ProcFunParamOp>)params).add(procParam);
+                                        ((ArrayList<ProcFunParamOp>)params).add(0,procParam);
                                         RESULT = params;
                                        :}
   | /* empty */{:RESULT = new ArrayList<ProcFunParamOp>();:};
 
   OtherProcParams ::= COMMA ProcParamId:id COLON Type:type OtherProcParams:otherParams
                                        {:ProcFunParamOp procParam = new ProcFunParamOp((Identifier)id,(Type)type);
-                                         ((ArrayList<ProcFunParamOp>)otherParams).add(procParam);
+                                         ((ArrayList<ProcFunParamOp>)otherParams).add(0,procParam);
                                          RESULT = otherParams;
                                        :}
   	   | /* empty */{:RESULT = new ArrayList<ProcFunParamOp>(); :};
@@ -225,7 +220,7 @@ start with Program;
     {: RESULT = new IfStatement((Expression)expr,(BodyOp) body,(ArrayList<ElifOp>)elifs,(ElseOp)elseBody);  :}
   ;
 
-  Elifs ::= Elif:e Elifs:elifsList {:((ArrayList<ElifOp>)elifsList).add((ElifOp)e); RESULT = elifsList; :}
+  Elifs ::= Elif:e Elifs:elifsList {:((ArrayList<ElifOp>)elifsList).add(0,(ElifOp)e); RESULT = elifsList; :}
         | /* empty */{: RESULT = new ArrayList<ElifOp>(); :};
 
   Elif ::= ELIF Expr:expr THEN Body:body{:RESULT = new ElifOp((Expression)expr,(BodyOp)body);:};
@@ -244,26 +239,26 @@ start with Program;
                                :} //ammette una sola stringa oppure una concatenazione
             |Expr:expression1 DOLLARSIGN LPAR Expr:expression2 RPAR IOArgs:IOArgsList{:
                                                                                     IOArg arg1 = new IOArg((Expression)expression1,false);
-                                                                                    ((ArrayList<IOArg>)IOArgsList).add(arg1);
+                                                                                    ((ArrayList<IOArg>)IOArgsList).add(0,arg1);
                                                                                     IOArg arg2 = new IOArg((Expression)expression2,true);
-                                                                                    ((ArrayList<IOArg>)IOArgsList).add(arg2);
+                                                                                    ((ArrayList<IOArg>)IOArgsList).add(0,arg2);
                                                                                     RESULT = IOArgsList;
                                                                                     :}//ammette una stringa (o concatenazione), un passaggio di parametri ed eventuali altri passaggi e/o stringhe
             |DOLLARSIGN LPAR Expr:expression RPAR IOArgs:IOArgsList{:
                                                                     IOArg arg = new IOArg((Expression)expression,true);
-                                                                    ((ArrayList<IOArg>)IOArgsList).add(arg);
+                                                                    ((ArrayList<IOArg>)IOArgsList).add(0,arg);
                                                                     RESULT = IOArgsList;
                                                                 :}//ammette un passaggio di parametri ed eventuali altri passaggi e/o stringhe
             | /* empty */{: RESULT = new ArrayList<IOArg>(); :};//serve per terminare le ricorsioni
 
   ProcExprs::= Expr:expression COMMA ProcExprs:procedureExpressions {:
                                                                         ProcedureExpression pe = new ProcedureExpression((Expression)expression,false,null);
-                                                                        ((ArrayList<ProcedureExpression>)procedureExpressions).add(pe);
+                                                                        ((ArrayList<ProcedureExpression>)procedureExpressions).add(0,pe);
                                                                         RESULT = procedureExpressions;
                                                                      :}
   	  | REF ID:id COMMA ProcExprs:procedureExpressions {:
                                                             ProcedureExpression pe = new ProcedureExpression(null,true,new Identifier(id));
-  	                                                        ((ArrayList<ProcedureExpression>)procedureExpressions).add(pe);
+  	                                                        ((ArrayList<ProcedureExpression>)procedureExpressions).add(0,pe);
   	                                                        RESULT = procedureExpressions;
   	                                                    :}
       | Expr:expression {:
@@ -279,7 +274,7 @@ start with Program;
                         RESULT = PEList;
   	               :};
 
-  Exprs ::= Expr:e COMMA Exprs:exprList {: ((ArrayList<Expression>)exprList).add((Expression)e); RESULT = exprList; :}
+  Exprs ::= Expr:e COMMA Exprs:exprList {: ((ArrayList<Expression>)exprList).add(0,(Expression)e); RESULT = exprList; :}
   	| Expr:e {: ArrayList<Expression> exprList = new ArrayList<Expression>();
                 exprList.add((Expression)e);
                 RESULT = exprList;

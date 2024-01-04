@@ -21,11 +21,11 @@ public class BodyOp extends Node{
     }
 
     public void addStatement(Statement s){
-        statementList.add(s);
+        statementList.add(0,s);
     }
 
     public void addVarDecl(VarDeclInterface v){
-        varDeclList.add(v);
+        varDeclList.add(0,v);
     }
 
     @Override

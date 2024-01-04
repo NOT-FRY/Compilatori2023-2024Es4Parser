@@ -18,11 +18,11 @@ public class ProgramOp extends Node{
     }
 
     public void addVarDecl(VarDeclInterface v){
-        varDeclList.add(v);
+        varDeclList.add(0,v);
     }
 
     public void addFunctionOrProcedure(FunctionOrProcedure f){
-        funProcList.add(f);
+        funProcList.add(0,f);
     }
 
     @Override
