@@ -11,12 +11,12 @@ import java.io.FileReader;
 
 public class test {
     public static void main(String[] args) throws Exception{
-        File file = new File("test\\test1.txt");
+        File file = new File("test\\" + args[0]+".txt");
         parser p = new parser(new Yylex(new FileReader(file)));
 
         ProgramOp program = (ProgramOp)p.debug_parse().value;
 
-        PrintXMLTreeVisitor visitor = new PrintXMLTreeVisitor("xmloutput\\test1");
+        PrintXMLTreeVisitor visitor = new PrintXMLTreeVisitor("xmloutput\\"+args[0]);
         visitor.visit(program);
         visitor.dispose();
 

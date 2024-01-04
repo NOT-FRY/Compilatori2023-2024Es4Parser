@@ -1,0 +1,10 @@
+func somma(a: real, b:real) -> real:
+
+    var risultato :real;\
+    risultato ^= a + b;
+	return risultato;
+
+endfunc
+
+proc test():
+endproc
