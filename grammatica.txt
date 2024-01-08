@@ -1,7 +1,6 @@
 Program ::= Iter1 Procedure Iter2
 Iter1 ::= VarDecl Iter
       | Function Iter
-      | Procedure Iter
       | /* empty */
 Iter2 ::= VarDecl Iter
       | Function Iter
