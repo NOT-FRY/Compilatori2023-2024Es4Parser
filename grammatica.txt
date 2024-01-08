@@ -1,5 +1,9 @@
-Program ::= Iter Procedure Iter
-Iter ::= VarDecl Iter
+Program ::= Iter1 Procedure Iter2
+Iter1 ::= VarDecl Iter
+      | Function Iter
+      | Procedure Iter
+      | /* empty */
+Iter2 ::= VarDecl Iter
       | Function Iter
       | Procedure Iter
       | /* empty */
@@ -78,7 +82,8 @@ Else ::= ELSE Body
 
 WhileStat ::= WHILE Expr DO Body ENDWHILE
 
-IOArgs ::= Expr IOArgs    /* qui l'Expr corretta è concatenazione di stringhe o singola stringa*/
+IOArgs ::= Expr    /* qui l'Expr corretta è concatenazione di stringhe o singola stringa*/
+       |  Expr DOLLARSIGN LPAR Expr RPAR IOArgs
        |  DOLLARSIGN LPAR Expr RPAR IOArgs
        | /* empty */
 
