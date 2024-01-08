@@ -931,7 +931,7 @@ class CUP$parser$actions {
 		int paramsright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object params = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-                                                                ProcFunParamOp funParamOp = new ProcFunParamOp(new Identifier(id),(Type)type);
+                                                                ProcFunParamOp funParamOp = new ProcFunParamOp(new Identifier(id,Qualifier.IN),(Type)type);
                                                                 ((ArrayList<ProcFunParamOp>)params).add(0,funParamOp);
                                                                 RESULT = params;
               CUP$parser$result = parser.getSymbolFactory().newSymbol("FuncParams",11, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-3)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
@@ -961,7 +961,7 @@ class CUP$parser$actions {
 		int otherParamsright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object otherParams = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
 		
-                                                ProcFunParamOp funParamOp = new ProcFunParamOp(new Identifier(id),(Type)type);
+                                                ProcFunParamOp funParamOp = new ProcFunParamOp(new Identifier(id, Qualifier.IN),(Type)type);
                                                 ((ArrayList<ProcFunParamOp>)otherParams).add(0,funParamOp);
                                                 RESULT = otherParams;
                                              
@@ -1093,7 +1093,7 @@ class CUP$parser$actions {
 		int idleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		String id = (String)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		 RESULT = new Identifier(id);
+		 RESULT = new Identifier(id,Qualifier.INOUT);
               CUP$parser$result = parser.getSymbolFactory().newSymbol("ProcParamId",17, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

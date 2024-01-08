@@ -149,14 +149,14 @@ start with Program;
   Function  ::= FUNCTION ID:id LPAR FuncParams:params RPAR TYPERETURN Types:types COLON Body:body ENDFUNCTION {:RESULT = new FunctionOp(new Identifier(id),(ArrayList<ProcFunParamOp>) params,(ArrayList<Type>) types,(BodyOp) body); :};
 
   FuncParams ::= ID:id COLON Type:type OtherFuncParams:params {:
-                                                                ProcFunParamOp funParamOp = new ProcFunParamOp(new Identifier(id),(Type)type);
+                                                                ProcFunParamOp funParamOp = new ProcFunParamOp(new Identifier(id,Qualifier.IN),(Type)type);
                                                                 ((ArrayList<ProcFunParamOp>)params).add(0,funParamOp);
                                                                 RESULT = params;:}
   	    | /* empty */{:RESULT = new ArrayList<ProcFunParamOp>(); :};
 
   OtherFuncParams ::= COMMA ID:id COLON Type:type OtherFuncParams:otherParams
                                               {:
-                                                ProcFunParamOp funParamOp = new ProcFunParamOp(new Identifier(id),(Type)type);
+                                                ProcFunParamOp funParamOp = new ProcFunParamOp(new Identifier(id, Qualifier.IN),(Type)type);
                                                 ((ArrayList<ProcFunParamOp>)otherParams).add(0,funParamOp);
                                                 RESULT = otherParams;
                                              :}
@@ -186,7 +186,7 @@ start with Program;
                                        :}
   	   | /* empty */{:RESULT = new ArrayList<ProcFunParamOp>(); :};
 
-  ProcParamId ::= ID:id {: RESULT = new Identifier(id);:}
+  ProcParamId ::= ID:id {: RESULT = new Identifier(id,Qualifier.INOUT);:}
   	    | OUT ID:id {:RESULT = new Identifier(id,Qualifier.OUT); :};
 
   Body ::= VarDecl:vardecls Body:body {:

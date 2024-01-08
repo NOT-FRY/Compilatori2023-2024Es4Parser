@@ -4,7 +4,7 @@ import tree_structure.Node;
 import tree_structure.Visitor;
 
 public class False_const extends Node implements Expression {
-    private boolean value;
+    private final boolean value;
 
     @Override
     public String toString() {

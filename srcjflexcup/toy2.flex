@@ -95,8 +95,8 @@ RealNumber = {IntegerNumber}"."[0-9]+
 <YYINITIAL> "@"              { return symbol(sym.REF); }
 
 <YYINITIAL>{
-    {RealNumber}               { return symbol(sym.REAL_CONST,new Double(yytext())); }
-    {IntegerNumber}            { return symbol(sym.INTEGER_CONST,new Integer(yytext())); }
+    {RealNumber}               { return symbol(sym.REAL_CONST, Double.parseDouble(yytext())); }
+    {IntegerNumber}            { return symbol(sym.INTEGER_CONST, Integer.parseInt(yytext())); }
     {StringLiteral}            {
                                     String str =  yytext().substring(1,yylength()-1);
                                     return symbol(sym.STRING_CONST,str);
