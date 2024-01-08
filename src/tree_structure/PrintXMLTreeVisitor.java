@@ -241,7 +241,7 @@ public class PrintXMLTreeVisitor implements Visitor {
         Qualifier q = i.getQualifier();
         String qualifierString = "";
         if (q != null) {
-            qualifierString += " qualifier='" + q.toString() + "'";
+            qualifierString += " qualifier='" + q + "'";
         }
         out.println(getIndent() + "<Identifier" + qualifierString + ">");
         increaseIndent();
@@ -565,8 +565,7 @@ public class PrintXMLTreeVisitor implements Visitor {
         out.println(getIndent() + "<IOArg>");
         increaseIndent();
         if(i.isDollarSign()) {
-            out.println(getIndent() + "<DollarSign>");
-            out.println(getIndent() + "</DollarSign>");
+            out.println(getIndent() + "<DollarSign/>");
         }
         i.getExpression().accept(this);
         decreaseIndent();
