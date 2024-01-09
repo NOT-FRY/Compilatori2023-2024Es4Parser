@@ -45,4 +45,6 @@ public interface Visitor {
     Object visit(ElseOp elseOp);
 
     Object visit(IterOp iterOp);
+
+    Object visit(IdentifierExpression ie);
 }

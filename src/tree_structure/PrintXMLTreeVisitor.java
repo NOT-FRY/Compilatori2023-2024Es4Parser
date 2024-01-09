@@ -1,4 +1,5 @@
 package tree_structure;
+import tree_structure.*;
 import tree_structure.Expression.*;
 import tree_structure.Expression.Expression;
 
@@ -42,10 +43,14 @@ public class PrintXMLTreeVisitor implements Visitor {
         out.println(getIndent() + "<AddOp>");
         increaseIndent();
         out.println(getIndent() + "<leftVal>");
+        increaseIndent();
         a.getLeft().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</leftVal>");
         out.println(getIndent() + "<rightVal>");
+        increaseIndent();
         a.getRight().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</rightVal>");
         decreaseIndent();
         out.println(getIndent() + "</AddOp>");
@@ -57,10 +62,14 @@ public class PrintXMLTreeVisitor implements Visitor {
         out.println(getIndent() + "<AndOp>");
         increaseIndent();
         out.println(getIndent() + "<leftVal>");
+        increaseIndent();
         a.getLeft().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</leftVal>");
         out.println(getIndent() + "<rightVal>");
+        increaseIndent();
         a.getRight().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</rightVal>");
         decreaseIndent();
         out.println(getIndent() + "</AndOp>");
@@ -88,12 +97,9 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(BodyOp b) {
         out.println(getIndent() + "<BodyOp>");
         increaseIndent();
-        ArrayList<VarDeclInterface> varDeclList = b.getVarDeclList();
-        for(VarDeclInterface v : varDeclList){
-            if(v instanceof VarDeclOp)
-                visit((VarDeclOp) v);
-            else if(v instanceof AssignStatement)
-                visit((AssignStatement) v);
+        ArrayList<VarDeclOp> varDeclList = b.getVarDeclList();
+        for(VarDeclOp v : varDeclList){
+            v.accept(this);
         }
         ArrayList<Statement> statements = b.getStatementList();
         for(Statement s : statements){
@@ -109,10 +115,14 @@ public class PrintXMLTreeVisitor implements Visitor {
         out.println(getIndent() + "<DiffOp>");
         increaseIndent();
         out.println(getIndent() + "<leftVal>");
+        increaseIndent();
         d.getLeft().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</leftVal>");
         out.println(getIndent() + "<rightVal>");
+        increaseIndent();
         d.getRight().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</rightVal>");
         decreaseIndent();
         out.println(getIndent() + "</DiffOp>");
@@ -124,10 +134,14 @@ public class PrintXMLTreeVisitor implements Visitor {
         out.println(getIndent() + "<DivOp>");
         increaseIndent();
         out.println(getIndent() + "<leftVal>");
+        increaseIndent();
         d.getLeft().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</leftVal>");
         out.println(getIndent() + "<rightVal>");
+        increaseIndent();
         d.getRight().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</rightVal>");
         decreaseIndent();
         out.println(getIndent() + "</DivOp>");
@@ -150,10 +164,14 @@ public class PrintXMLTreeVisitor implements Visitor {
         out.println(getIndent() + "<EQOp>");
         increaseIndent();
         out.println(getIndent() + "<leftVal>");
+        increaseIndent();
         e.getLeft().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</leftVal>");
         out.println(getIndent() + "<rightVal>");
+        increaseIndent();
         e.getRight().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</rightVal>");
         decreaseIndent();
         out.println(getIndent() + "</EQOp>");
@@ -196,7 +214,9 @@ public class PrintXMLTreeVisitor implements Visitor {
         out.println(getIndent() + "<ReturnTypes>");
         ArrayList<Type> types = f.getReturnTypes();
         for(Type t : types){
+            increaseIndent();
             out.println(getIndent() + t);
+            decreaseIndent();
         }
         out.println(getIndent() + "</ReturnTypes>");
         f.getBody().accept(this);
@@ -211,10 +231,14 @@ public class PrintXMLTreeVisitor implements Visitor {
         out.println(getIndent() + "<GEOp>");
         increaseIndent();
         out.println(getIndent() + "<leftVal>");
+        decreaseIndent();
         g.getLeft().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</leftVal>");
         out.println(getIndent() + "<rightVal>");
+        increaseIndent();
         g.getRight().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</rightVal>");
         decreaseIndent();
         out.println(getIndent() + "</GEOp>");
@@ -226,10 +250,14 @@ public class PrintXMLTreeVisitor implements Visitor {
         out.println(getIndent() + "<GTOp>");
         increaseIndent();
         out.println(getIndent() + "<leftVal>");
+        increaseIndent();
         g.getLeft().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</leftVal>");
         out.println(getIndent() + "<rightVal>");
+        increaseIndent();
         g.getRight().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</rightVal>");
         decreaseIndent();
         out.println(getIndent() + "</GTOp>");
@@ -372,7 +400,9 @@ public class PrintXMLTreeVisitor implements Visitor {
         p.getIdentifier().accept(this);
         Type type = p.getType();
         out.println(getIndent() + "<Type>");
+        increaseIndent();
         out.println(getIndent() + type);
+        decreaseIndent();
         out.println(getIndent() + "</Type>");
         decreaseIndent();
         out.println(getIndent() + "</ProcFunParamOp>");
@@ -398,12 +428,9 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(ProgramOp p) {
         out.println(getIndent() + "<ProgramOp>");
         increaseIndent();
-        ArrayList<VarDeclInterface> varDeclList = p.getVarDeclList();
-        for (VarDeclInterface v : varDeclList) {
-            if (v instanceof VarDeclOp)
-                visit((VarDeclOp) v);
-            else if (v instanceof AssignStatement)
-                visit((AssignStatement) v);
+        ArrayList<VarDeclOp> varDeclList = p.getVarDeclList();
+        for (VarDeclOp v : varDeclList) {
+            v.accept(this);
         }
         ArrayList<? extends FunctionOrProcedure> paramOps = p.getFunProcList();
         for (FunctionOrProcedure n : paramOps) {
@@ -441,12 +468,10 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(ReturnStatement r) {
         out.println(getIndent() + "<ReturnStatement>");
         increaseIndent();
-        out.println(getIndent() + "<Values>");
         ArrayList<Expression> expressions = r.getExpressions();
         for(Expression e : expressions) {
             e.accept(this);
         }
-        out.println(getIndent() + "</Values>");
         decreaseIndent();
         out.println(getIndent() + "</ReturnStatement>");
         return null;
@@ -488,14 +513,26 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(VarDeclOp v) {
         out.println(getIndent() + "<VarDeclOp>");
         increaseIndent();
-        ArrayList<Expression> Expressions = v.getExpressionList();
-        for(Expression i : Expressions) {
-            i.accept(this);
+        ArrayList<IdentifierExpression> identifierExpressionList = v.getIdentifierExpressionsList();
+        for(IdentifierExpression ie : identifierExpressionList) {
+            ie.accept(this);
         }
         Type type = v.getType();
-        out.println(getIndent() + "<Type>");
-        out.println(getIndent() + type);
-        out.println(getIndent() + "</Type>");
+        if(type!=null) {
+            increaseIndent();
+            out.println(getIndent() + "<Type>");
+            increaseIndent();
+            out.println(getIndent() + type);
+            decreaseIndent();
+            out.println(getIndent() + "</Type>");
+            decreaseIndent();
+        }
+        DeclarationType dt = v.getDeclarationType();
+        out.println(getIndent() + "<DeclarationType>");
+        increaseIndent();
+        out.println(getIndent() + dt);
+        decreaseIndent();
+        out.println(getIndent() + "</DeclarationType>");
         decreaseIndent();
         out.println(getIndent() + "</VarDeclOp>");
         return null;
@@ -518,7 +555,9 @@ public class PrintXMLTreeVisitor implements Visitor {
         increaseIndent();
         WritingType writingType = w.getWritingType();
         out.println(getIndent() + "<WritingType>");
+        increaseIndent();
         out.println(getIndent() + writingType);
+        decreaseIndent();
         out.println(getIndent() + "</WritingType>");
         ArrayList<Expression> expressions = w.getExpressions();
         for(Expression e : expressions) {
@@ -544,12 +583,9 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(IterOp i) {
         out.println(getIndent() + "<IterOp>");
         increaseIndent();
-        ArrayList<VarDeclInterface> varDeclList = i.getVarDeclList();
-        for(VarDeclInterface v : varDeclList) {
-            if(v instanceof VarDeclOp)
-                visit((VarDeclOp) v);
-            else if(v instanceof AssignStatement)
-                visit((AssignStatement) v);
+        ArrayList<VarDeclOp> varDeclList = i.getVarDeclList();
+        for(VarDeclOp v : varDeclList) {
+            v.accept(this);
         }
         ArrayList<? extends FunctionOrProcedure> paramOps = i.getFunProcList();
         for(FunctionOrProcedure n : paramOps) {
@@ -557,6 +593,22 @@ public class PrintXMLTreeVisitor implements Visitor {
         }
         decreaseIndent();
         out.println(getIndent() + "</IterOp>");
+        return null;
+    }
+
+    @Override
+    public Object visit(IdentifierExpression ie) {
+        out.println(getIndent() + "<IdentifierExpression>");
+        increaseIndent();
+        if(ie.getIdentifier()!=null){
+            ie.getIdentifier().accept(this);
+        }
+        if(ie.getExpression()!=null){
+            ie.getExpression().accept(this);
+        }
+
+        decreaseIndent();
+        out.println(getIndent() + "</IdentifierExpression>");
         return null;
     }
 
@@ -593,11 +645,11 @@ public class PrintXMLTreeVisitor implements Visitor {
     public Object visit(ProcCallOp p) {
         out.println(getIndent() + "<ProcCallOp>");
         increaseIndent();
+        p.getIdentifier().accept(this);
         ArrayList<ProcedureExpression> Expressions = p.getProcedureExpressions();
         for(ProcedureExpression i : Expressions) {
             i.accept(this);
         }
-        p.getIdentifier().accept(this);
         decreaseIndent();
         out.println(getIndent() + "</ProcCallOp>");
         return null;

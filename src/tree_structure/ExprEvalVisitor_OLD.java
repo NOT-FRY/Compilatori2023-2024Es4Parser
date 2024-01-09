@@ -261,4 +261,9 @@ public class ExprEvalVisitor_OLD implements Visitor {
     public Object visit(IterOp iterOp) {
         return null;
     }
+
+    @Override
+    public Object visit(IdentifierExpression ie) {
+        return null;
+    }
 }

@@ -5,31 +5,44 @@
         </Identifier>
         <BodyOp>
             <VarDeclOp>
-                <Identifier>
-                    a
-                </Identifier>
-                <Identifier>
-                    b
-                </Identifier>
-                <Identifier>
-                    risultato
-                </Identifier>
-                <Type>
-                REAL
-                </Type>
+                <IdentifierExpression>
+                    <Identifier>
+                        a
+                    </Identifier>
+                </IdentifierExpression>
+                <IdentifierExpression>
+                    <Identifier>
+                        b
+                    </Identifier>
+                </IdentifierExpression>
+                <IdentifierExpression>
+                    <Identifier>
+                        risultato
+                    </Identifier>
+                </IdentifierExpression>
+                    <Type>
+                    REAL
+                    </Type>
+                <DeclarationType>
+                DECLARATION
+                </DeclarationType>
             </VarDeclOp>
-            <AssignStatement>
-                <Identifier>
-                    ans
-                </Identifier>
-                <Integer_const>
-                    1
-                </Integer_const>
-            </AssignStatement>
+            <VarDeclOp>
+                <IdentifierExpression>
+                    <Identifier>
+                        ans
+                    </Identifier>
+                    <Integer_const>
+                        1
+                    </Integer_const>
+                </IdentifierExpression>
+                <DeclarationType>
+                INITIALIZATION
+                </DeclarationType>
+            </VarDeclOp>
             <ReadStatement>
                 <IOArg>
-                    <DollarSign>
-                    </DollarSign>
+                    <DollarSign/>
                     <Identifier>
                         ans
                     </Identifier>
@@ -74,8 +87,7 @@
                 <BodyOp>
                     <ReadStatement>
                         <IOArg>
-                            <DollarSign>
-                            </DollarSign>
+                            <DollarSign/>
                             <Identifier>
                                 a
                             </Identifier>
@@ -88,8 +100,7 @@
                     </ReadStatement>
                     <ReadStatement>
                         <IOArg>
-                            <DollarSign>
-                            </DollarSign>
+                            <DollarSign/>
                             <Identifier>
                                 b
                             </Identifier>
@@ -255,8 +266,7 @@
                         WRITE
                         </WritingType>
                         <IOArg>
-                            <DollarSign>
-                            </DollarSign>
+                            <DollarSign/>
                             <Identifier>
                                 risultato
                             </Identifier>
@@ -269,8 +279,7 @@
                     </WriteStatement>
                     <ReadStatement>
                         <IOArg>
-                            <DollarSign>
-                            </DollarSign>
+                            <DollarSign/>
                             <Identifier>
                                 ans
                             </Identifier>
@@ -300,7 +309,7 @@
             divisione
         </Identifier>
         <ProcFunParamOp>
-            <Identifier>
+            <Identifier qualifier='INOUT'>
                 a
             </Identifier>
             <Type>
@@ -308,7 +317,7 @@
             </Type>
         </ProcFunParamOp>
         <ProcFunParamOp>
-            <Identifier>
+            <Identifier qualifier='INOUT'>
                 b
             </Identifier>
             <Type>
@@ -348,7 +357,7 @@
             moltiplicazione
         </Identifier>
         <ProcFunParamOp>
-            <Identifier>
+            <Identifier qualifier='INOUT'>
                 a
             </Identifier>
             <Type>
@@ -356,7 +365,7 @@
             </Type>
         </ProcFunParamOp>
         <ProcFunParamOp>
-            <Identifier>
+            <Identifier qualifier='INOUT'>
                 b
             </Identifier>
             <Type>
@@ -396,7 +405,7 @@
             somma
         </Identifier>
         <ProcFunParamOp>
-            <Identifier>
+            <Identifier qualifier='IN'>
                 a
             </Identifier>
             <Type>
@@ -404,7 +413,7 @@
             </Type>
         </ProcFunParamOp>
         <ProcFunParamOp>
-            <Identifier>
+            <Identifier qualifier='IN'>
                 b
             </Identifier>
             <Type>
@@ -416,12 +425,17 @@
         </ReturnTypes>
         <BodyOp>
             <VarDeclOp>
-                <Identifier>
-                    risultato
-                </Identifier>
-                <Type>
-                REAL
-                </Type>
+                <IdentifierExpression>
+                    <Identifier>
+                        risultato
+                    </Identifier>
+                </IdentifierExpression>
+                    <Type>
+                    REAL
+                    </Type>
+                <DeclarationType>
+                DECLARATION
+                </DeclarationType>
             </VarDeclOp>
             <AssignStatement>
                 <Identifier>
@@ -454,7 +468,7 @@
             sottrazione
         </Identifier>
         <ProcFunParamOp>
-            <Identifier>
+            <Identifier qualifier='IN'>
                 a
             </Identifier>
             <Type>
@@ -462,7 +476,7 @@
             </Type>
         </ProcFunParamOp>
         <ProcFunParamOp>
-            <Identifier>
+            <Identifier qualifier='IN'>
                 b
             </Identifier>
             <Type>
@@ -474,12 +488,17 @@
         </ReturnTypes>
         <BodyOp>
             <VarDeclOp>
-                <Identifier>
-                    risultato
-                </Identifier>
-                <Type>
-                REAL
-                </Type>
+                <IdentifierExpression>
+                    <Identifier>
+                        risultato
+                    </Identifier>
+                </IdentifierExpression>
+                    <Type>
+                    REAL
+                    </Type>
+                <DeclarationType>
+                DECLARATION
+                </DeclarationType>
             </VarDeclOp>
             <AssignStatement>
                 <Identifier>
