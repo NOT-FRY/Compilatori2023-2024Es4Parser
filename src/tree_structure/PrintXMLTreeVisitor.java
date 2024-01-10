@@ -194,9 +194,13 @@ public class PrintXMLTreeVisitor implements Visitor {
         increaseIndent();
         f.getIdentifier().accept(this);
         ArrayList<Expression> expressions = f.getExpressions();
+        increaseIndent();
+        out.println(getIndent() + "<Parameters>");
         for(Expression e : expressions){
             e.accept(this);
         }
+        decreaseIndent();
+        out.println(getIndent() + "</Parameters>");
         decreaseIndent();
         out.println(getIndent() + "</FunCallOp>");
         return null;
@@ -231,7 +235,7 @@ public class PrintXMLTreeVisitor implements Visitor {
         out.println(getIndent() + "<GEOp>");
         increaseIndent();
         out.println(getIndent() + "<leftVal>");
-        decreaseIndent();
+        increaseIndent();
         g.getLeft().accept(this);
         decreaseIndent();
         out.println(getIndent() + "</leftVal>");
@@ -310,10 +314,14 @@ public class PrintXMLTreeVisitor implements Visitor {
         out.println(getIndent() + "<LEOp>");
         increaseIndent();
         out.println(getIndent() + "<leftVal>");
+        increaseIndent();
         l.getLeft().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</leftVal>");
         out.println(getIndent() + "<rightVal>");
+        increaseIndent();
         l.getRight().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</rightVal>");
         decreaseIndent();
         out.println(getIndent() + "</LEOp>");
@@ -325,10 +333,14 @@ public class PrintXMLTreeVisitor implements Visitor {
         out.println(getIndent() + "<LTOp>");
         increaseIndent();
         out.println(getIndent() + "<leftVal>");
+        increaseIndent();
         l.getLeft().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</leftVal>");
         out.println(getIndent() + "<rightVal>");
+        increaseIndent();
         l.getRight().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</rightVal>");
         decreaseIndent();
         out.println(getIndent() + "</LTOp>");
@@ -341,10 +353,14 @@ public class PrintXMLTreeVisitor implements Visitor {
         out.println(getIndent() + "<MulOp>");
         increaseIndent();
         out.println(getIndent() + "<leftVal>");
+        increaseIndent();
         m.getLeft().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</leftVal>");
         out.println(getIndent() + "<rightVal>");
+        increaseIndent();
         m.getRight().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</rightVal>");
         decreaseIndent();
         out.println(getIndent() + "</MulOp>");
@@ -356,10 +372,14 @@ public class PrintXMLTreeVisitor implements Visitor {
         out.println(getIndent() + "<NEOp>");
         increaseIndent();
         out.println(getIndent() + "<leftVal>");
+        increaseIndent();
         n.getLeft().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</leftVal>");
         out.println(getIndent() + "<rightVal>");
+        increaseIndent();
         n.getRight().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</rightVal>");
         decreaseIndent();
         out.println(getIndent() + "</NEOp>");
@@ -383,10 +403,14 @@ public class PrintXMLTreeVisitor implements Visitor {
         out.println(getIndent() + "<OrOp>");
         increaseIndent();
         out.println(getIndent() + "<leftVal>");
+        increaseIndent();
         o.getLeft().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</leftVal>");
         out.println(getIndent() + "<rightVal>");
+        increaseIndent();
         o.getRight().accept(this);
+        decreaseIndent();
         out.println(getIndent() + "</rightVal>");
         decreaseIndent();
         out.println(getIndent() + "</OrOp>");
@@ -519,13 +543,11 @@ public class PrintXMLTreeVisitor implements Visitor {
         }
         Type type = v.getType();
         if(type!=null) {
-            increaseIndent();
             out.println(getIndent() + "<Type>");
             increaseIndent();
             out.println(getIndent() + type);
             decreaseIndent();
             out.println(getIndent() + "</Type>");
-            decreaseIndent();
         }
         DeclarationType dt = v.getDeclarationType();
         out.println(getIndent() + "<DeclarationType>");

@@ -177,6 +177,9 @@
                 </DeclarationType>
             </VarDeclOp>
             <ProcCallOp>
+                <Identifier>
+                    sommac
+                </Identifier>
                 <ProcedureExpression>
                     <Identifier>
                         a
@@ -202,9 +205,6 @@
                         risultato
                     </Identifier>
                 </ProcedureExpression>
-                <Identifier>
-                    sommac
-                </Identifier>
             </ProcCallOp>
             <AssignStatement>
                 <Identifier>
@@ -364,6 +364,9 @@
                         </IOArg>
                     </ReadStatement>
                     <ProcCallOp>
+                        <Identifier>
+                            sommac
+                        </Identifier>
                         <ProcedureExpression>
                             <Identifier>
                                 a
@@ -384,9 +387,6 @@
                                 risultato
                             </Identifier>
                         </ProcedureExpression>
-                        <Identifier>
-                            sommac
-                        </Identifier>
                     </ProcCallOp>
                     <AssignStatement>
                         <Identifier>
